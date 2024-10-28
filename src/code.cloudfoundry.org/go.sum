@@ -592,8 +592,6 @@ cloud.google.com/go/workflows v1.7.0/go.mod h1:JhSrZuVZWuiDfKEFxU0/F1PQjmpnpcoIS
 cloud.google.com/go/workflows v1.8.0/go.mod h1:ysGhmEajwZxGn1OhGOGKsTXc5PyxOc0vfKf5Af+to4M=
 cloud.google.com/go/workflows v1.9.0/go.mod h1:ZGkj1aFIOd9c8Gerkjjq7OW7I5+l6cSvT3ujaO/WwSA=
 cloud.google.com/go/workflows v1.10.0/go.mod h1:fZ8LmRmZQWacon9UCX1r/g/DfAXx5VcPALq2CxzdePw=
-code.cloudfoundry.org/bbs v0.0.0-20241025144516-08b66b85e0f1 h1:MHfx8aqIeAuOJV7XXwhkQ2j6hNBW8/giQ+jGuqfCYio=
-code.cloudfoundry.org/bbs v0.0.0-20241025144516-08b66b85e0f1/go.mod h1:XKlGVVXFi5EcHHMPzw3xgONK9PeEZuUbIC43XNwxD10=
 code.cloudfoundry.org/bbs v0.0.0-20241026000759-2d81b9f6ff2a h1:9Vi4r0lRMKehOHmSetkZwQv1Ekw15BmupslzkVQ8jJI=
 code.cloudfoundry.org/bbs v0.0.0-20241026000759-2d81b9f6ff2a/go.mod h1:XKlGVVXFi5EcHHMPzw3xgONK9PeEZuUbIC43XNwxD10=
 code.cloudfoundry.org/cfhttp/v2 v2.17.0 h1:JDqLJ8nvTfs5I3pcLI7kZXtB5XrZDvrKVjP6tNPwyqQ=
@@ -612,8 +610,6 @@ code.cloudfoundry.org/go-diodes v0.0.0-20241007161556-ec30366c7912 h1:4Lj5tSZsoT
 code.cloudfoundry.org/go-diodes v0.0.0-20241007161556-ec30366c7912/go.mod h1:UswWmjC8YkMF7v0jCgMOWNRfqJoTTBbpRzX3Emk2HBU=
 code.cloudfoundry.org/go-loggregator/v9 v9.2.1 h1:S6Lgg5UJbhh2bt2TGQxs6R00CF8PrUA3GFPYDxy56Fk=
 code.cloudfoundry.org/go-loggregator/v9 v9.2.1/go.mod h1:FTFFruqGeOhVCDFvyLgl8EV8YW63NNwRzLhxJcporu8=
-code.cloudfoundry.org/go-metric-registry v0.0.0-20241016180114-4959be80b5ec h1:Ico3h27grCSfXkAB1jqHkJcPqLZqC6FVm2Dgh2ed1Fc=
-code.cloudfoundry.org/go-metric-registry v0.0.0-20241016180114-4959be80b5ec/go.mod h1:Z4wDvwh54N0tSOoOoycIPNMp3ZhlYA4rf7GuUEUEdRs=
 code.cloudfoundry.org/go-metric-registry v0.0.0-20241025180809-3ab2448983bd h1:QItKFg6Y0M7pNOf4zaq8C40PJ1iYG6+P+PZXoOcalQo=
 code.cloudfoundry.org/go-metric-registry v0.0.0-20241025180809-3ab2448983bd/go.mod h1:H53wQpH2qu8DCMfMqJcIRKWZeYLnWib2+rrIfitJxdA=
 code.cloudfoundry.org/inigo v0.0.0-20210615140442-4bdc4f6e44d5 h1:XVhLtnvbIlLQh7L0KADVFjd2dfgXVcOpqPLpMtg/IZA=
@@ -622,8 +618,6 @@ code.cloudfoundry.org/lager/v3 v3.11.0 h1:YjRSl1USPIz1FFZPVvwFYgXUUodSIWDdXaLVvM
 code.cloudfoundry.org/lager/v3 v3.11.0/go.mod h1:8Ot/5fRETEzdf9U3N1kCWp00oZteNwew5Cl2Ck3t2ho=
 code.cloudfoundry.org/localip v0.15.0 h1:ez5wapKkB1ALBUe94EBXeSnQx5etiudoVKCAiF7hq4c=
 code.cloudfoundry.org/localip v0.15.0/go.mod h1:1WLQUbefJ9LAgzMieK/A21Cv82/VZwLGis1FIupaX6Q=
-code.cloudfoundry.org/locket v0.0.0-20241025145417-a58d3901252d h1:cw5ST9lFnK5WQbYpGj85xEIr849ouDoR7fJX/0kwchY=
-code.cloudfoundry.org/locket v0.0.0-20241025145417-a58d3901252d/go.mod h1:AwHLRkdXtttLXNB8RHgLfErJ2kKafH62AR2OClhy6xI=
 code.cloudfoundry.org/locket v0.0.0-20241026001853-f122fe672f9d h1:lfQuna2kAIbQ+n9YjR92AVM40MuVMkhxbuPK4NfBNCE=
 code.cloudfoundry.org/locket v0.0.0-20241026001853-f122fe672f9d/go.mod h1:AwHLRkdXtttLXNB8RHgLfErJ2kKafH62AR2OClhy6xI=
 code.cloudfoundry.org/tlsconfig v0.7.0 h1:/gD+YzQtjjmUjW0W/NamX9zX6cX679jV1QDEH34kfAc=
@@ -666,7 +660,6 @@ github.com/cactus/go-statsd-client v2.0.2-0.20150911070441-6fa055a7b594+incompat
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/census-instrumentation/opencensus-proto v0.3.0/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/census-instrumentation/opencensus-proto v0.4.1/go.mod h1:4T9NM4+4Vw91VeyqjLS6ao50K5bOcLKN6Q42XnYaRYw=
-github.com/cespare/xxhash v1.1.0 h1:a6HrQnmkObjyL+Gs60czilIUGqrzKutQD6XZog3p+ko=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/cespare/xxhash/v2 v2.1.1/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/cespare/xxhash/v2 v2.2.0/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
@@ -678,8 +671,6 @@ github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1/go.mod h1:Q3SI9o4m/ZMn
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/cloudfoundry-community/go-uaa v0.3.3 h1:VvThn655xL/drEC0wA32dPOGO81GANgVobMpS1o9dj4=
 github.com/cloudfoundry-community/go-uaa v0.3.3/go.mod h1:6I8rkeZMpzdyG/SrAWlrnLs8WwO7j87BXT8njRkctTk=
-github.com/cloudfoundry/cf-routing-test-helpers v0.0.0-20240920121531-99a9a4bd418e h1:TIyImzg5hzFvDd19/Z6rx6NHKIF0mfiWA1uXZdOSHmk=
-github.com/cloudfoundry/cf-routing-test-helpers v0.0.0-20240920121531-99a9a4bd418e/go.mod h1:XigJMOXHcv+D+rPZ0pqcYEk4o2PZWG5CZ5mRycXzVcY=
 github.com/cloudfoundry/cf-routing-test-helpers v0.0.0-20241025163157-ce30ff0fff6d h1:T97dg0eH6woImVo+SsUif1QvfCH29yQzblzOrIs0Ags=
 github.com/cloudfoundry/cf-routing-test-helpers v0.0.0-20241025163157-ce30ff0fff6d/go.mod h1:XigJMOXHcv+D+rPZ0pqcYEk4o2PZWG5CZ5mRycXzVcY=
 github.com/cloudfoundry/cf-test-helpers/v2 v2.9.0 h1:TxmjLDCIopHVo8mhp7WrwKvgnsescsDKV/R5ATr8jgI=
@@ -770,7 +761,6 @@ github.com/go-sql-driver/mysql v1.5.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LB
 github.com/go-sql-driver/mysql v1.8.1 h1:LedoTUt/eveggdHS9qUFC1EFSa8bU2+1pZjSRpvNJ1Y=
 github.com/go-sql-driver/mysql v1.8.1/go.mod h1:wEBSXgmK//2ZFJyE+qWnIsVGmvmEKlqwuVSjsCm7DZg=
 github.com/go-task/slim-sprig v0.0.0-20210107165309-348f09dbbbc0/go.mod h1:fyg7847qk6SyHyPtNmDHnmrv/HOrqktSC+C9fM+CJOE=
-github.com/go-task/slim-sprig v0.0.0-20230315185526-52ccab3ef572 h1:tfuBGBXKqDEevZMzYi5KSi8KkcZtzBcTgAUUtapy0OI=
 github.com/go-task/slim-sprig v0.0.0-20230315185526-52ccab3ef572/go.mod h1:9Pwr4B2jHnOSGXyyzV8ROjYa2ojvAY6HCGYYfMoC3Ls=
 github.com/go-task/slim-sprig/v3 v3.0.0 h1:sUs3vkvUymDpBKi3qH1YSqBQk9+9D/8M2mN1vB6EwHI=
 github.com/go-task/slim-sprig/v3 v3.0.0/go.mod h1:W848ghGpv3Qj3dhTPRyJypKRiqCdHZiAzKg9hl15HA8=

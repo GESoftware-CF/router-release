@@ -1,4 +1,4 @@
-# code.cloudfoundry.org/bbs v0.0.0-20241025144516-08b66b85e0f1
+# code.cloudfoundry.org/bbs v0.0.0-20241026000759-2d81b9f6ff2a
 ## explicit
 code.cloudfoundry.org/bbs/db/sqldb/helpers
 code.cloudfoundry.org/bbs/db/sqldb/helpers/monitor
@@ -33,7 +33,7 @@ code.cloudfoundry.org/go-diodes
 code.cloudfoundry.org/go-loggregator/v9
 code.cloudfoundry.org/go-loggregator/v9/rpc/loggregator_v2
 code.cloudfoundry.org/go-loggregator/v9/runtimeemitter
-# code.cloudfoundry.org/go-metric-registry v0.0.0-20241016180114-4959be80b5ec
+# code.cloudfoundry.org/go-metric-registry v0.0.0-20241025180809-3ab2448983bd
 ## explicit; go 1.22
 code.cloudfoundry.org/go-metric-registry
 code.cloudfoundry.org/go-metric-registry/testhelpers
@@ -49,7 +49,7 @@ code.cloudfoundry.org/lager/v3/lagertest
 # code.cloudfoundry.org/localip v0.15.0
 ## explicit; go 1.22.0
 code.cloudfoundry.org/localip
-# code.cloudfoundry.org/locket v0.0.0-20241025145417-a58d3901252d
+# code.cloudfoundry.org/locket v0.0.0-20241026001853-f122fe672f9d
 ## explicit
 code.cloudfoundry.org/locket
 code.cloudfoundry.org/locket/cmd/locket
@@ -90,7 +90,7 @@ github.com/cespare/xxhash/v2
 ## explicit; go 1.20
 github.com/cloudfoundry-community/go-uaa
 github.com/cloudfoundry-community/go-uaa/passwordcredentials
-# github.com/cloudfoundry/cf-routing-test-helpers v0.0.0-20240920121531-99a9a4bd418e
+# github.com/cloudfoundry/cf-routing-test-helpers v0.0.0-20241025163157-ce30ff0fff6d
 ## explicit
 github.com/cloudfoundry/cf-routing-test-helpers/schema
 # github.com/cloudfoundry/cf-test-helpers/v2 v2.9.0
