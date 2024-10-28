@@ -72,5 +72,6 @@ func (d *cryptor) Decrypt(encrypted Encrypted) ([]byte, error) {
 		return nil, fmt.Errorf("Unable to create GCM-wrapped cipher: %q", err)
 	}
 
+	// #nosec G407 - G407 is incorrectly flagging Decrypt calls that use the nonce provided in the encrypted data. we randomize this for encryption, which is where it matters. https://github.com/securego/gosec/issues/1209
 	return aead.Open(nil, encrypted.Nonce, encrypted.CipherText, nil)
 }
