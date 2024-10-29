@@ -5,16 +5,16 @@ go 1.23.0
 replace github.com/cactus/go-statsd-client => github.com/cactus/go-statsd-client v2.0.2-0.20150911070441-6fa055a7b594+incompatible
 
 require (
-	code.cloudfoundry.org/bbs v0.0.0-20241026000759-2d81b9f6ff2a
-	code.cloudfoundry.org/cfhttp/v2 v2.17.0
-	code.cloudfoundry.org/clock v1.17.0
-	code.cloudfoundry.org/debugserver v0.20.0
-	code.cloudfoundry.org/eventhub v0.14.0
+	code.cloudfoundry.org/bbs v0.0.0-20241029001107-2bebce403fed
+	code.cloudfoundry.org/cfhttp/v2 v2.19.0
+	code.cloudfoundry.org/clock v1.19.0
+	code.cloudfoundry.org/debugserver v0.22.0
+	code.cloudfoundry.org/eventhub v0.16.0
 	code.cloudfoundry.org/go-metric-registry v0.0.0-20241025180809-3ab2448983bd
-	code.cloudfoundry.org/lager/v3 v3.11.0
-	code.cloudfoundry.org/localip v0.15.0
-	code.cloudfoundry.org/locket v0.0.0-20241026001853-f122fe672f9d
-	code.cloudfoundry.org/tlsconfig v0.7.0
+	code.cloudfoundry.org/lager/v3 v3.13.0
+	code.cloudfoundry.org/localip v0.17.0
+	code.cloudfoundry.org/locket v0.0.0-20241029002438-07ee8ada566a
+	code.cloudfoundry.org/tlsconfig v0.8.0
 	github.com/armon/go-proxyproto v0.1.0
 	github.com/cactus/go-statsd-client v3.2.1+incompatible
 	github.com/cloudfoundry-community/go-uaa v0.3.3
@@ -53,8 +53,8 @@ require (
 )
 
 require (
-	code.cloudfoundry.org/diego-logging-client v0.25.0 // indirect
-	code.cloudfoundry.org/durationjson v0.15.0 // indirect
+	code.cloudfoundry.org/diego-logging-client v0.27.0 // indirect
+	code.cloudfoundry.org/durationjson v0.17.0 // indirect
 	code.cloudfoundry.org/go-diodes v0.0.0-20241007161556-ec30366c7912 // indirect
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1 // indirect
 	code.cloudfoundry.org/inigo v0.0.0-20210615140442-4bdc4f6e44d5 // indirect
@@ -71,7 +71,7 @@ require (
 	github.com/go-test/deep v1.0.7 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
-	github.com/google/pprof v0.0.0-20241023014458-598669927662 // indirect
+	github.com/google/pprof v0.0.0-20241029010322-833c56d90c8e // indirect
 	github.com/honeycombio/libhoney-go v1.23.1 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
