@@ -21,6 +21,10 @@ type DebugServerConfig struct {
 	DebugAddress string `json:"debug_address"`
 }
 
+type ReconfigurableSinkInterface interface {
+	SetMinLevel(level lager.LogLevel)
+}
+
 func AddFlags(flags *flag.FlagSet) {
 	flags.String(
 		DebugFlag,
@@ -38,11 +42,11 @@ func DebugAddress(flags *flag.FlagSet) string {
 	return dbgFlag.Value.String()
 }
 
-func Runner(address string, sink *lager.ReconfigurableSink) ifrit.Runner {
+func Runner(address string, sink ReconfigurableSinkInterface) ifrit.Runner {
 	return http_server.New(address, Handler(sink))
 }
 
-func Run(address string, sink *lager.ReconfigurableSink) (ifrit.Process, error) {
+func Run(address string, sink ReconfigurableSinkInterface) (ifrit.Process, error) {
 	p := ifrit.Invoke(Runner(address, sink))
 	select {
 	case <-p.Ready():
@@ -52,7 +56,7 @@ func Run(address string, sink *lager.ReconfigurableSink) (ifrit.Process, error) 
 	return p, nil
 }
 
-func Handler(sink *lager.ReconfigurableSink) http.Handler {
+func Handler(sink ReconfigurableSinkInterface) http.Handler {
 	mux := http.NewServeMux()
 	mux.Handle("/debug/pprof/", http.HandlerFunc(pprof.Index))
 	mux.Handle("/debug/pprof/trace", http.HandlerFunc(pprof.Trace))
