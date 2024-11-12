@@ -28,13 +28,6 @@ def parse_ip (ip, var_name)
   end
 end
 
-def validate_max_header_kb (kb)
-  if kb < 1 or kb > 1024
-    raise "Invalid router.max_header_kb value. Must be between 1 and 1,024 kb"
-  end
-  kb * 1024
-end
-
 def validate_balancing_algorithm (algorithm)
   valid_balancing_algorithms = ['round-robin', 'least-connection']
   unless valid_balancing_algorithms.include?(algorithm)
@@ -82,6 +75,27 @@ def status_tls
   return tls
 end
 
+def max_request_header_bytes
+  # See property description for details.
+  if_p("router.max_request_header_kb") do |kb|
+    return kb * 1024
+  end
+
+  kb = p("router.max_header_kb")
+  if kb < 1 or kb > 1024
+    raise "Invalid router.max_header_kb value. Must be between 1 and 1,024 kb"
+  end
+
+  return kb * 1024
+end
+
+def validate_header_count_limit (limit)
+  if limit > 0 && limit < 30
+    raise 'header limit too low, should be disabled (0) or at least 30'
+  end
+
+  return limit
+end
 
 params = {
   'zone' => spec.az,
@@ -145,7 +159,10 @@ params = {
   'route_services_internal_server_port' => p('router.route_services_internal_server_port'),
   'route_services_hairpinning_allowlist' => p('router.route_services_internal_lookup_allowlist'),
   'extra_headers_to_log' => p('router.extra_headers_to_log'),
-  'max_header_bytes' => validate_max_header_kb(p('router.max_header_kb')),
+  'max_request_header_bytes' => max_request_header_bytes,
+  'max_response_header_bytes' => p('router.max_response_header_kb') * 1024,
+  'max_request_headers' => validate_header_count_limit(p('router.max_request_headers')),
+  'max_response_headers' => validate_header_count_limit(p('router.max_response_headers')),
   'token_fetcher_max_retries' => 3,
   'token_fetcher_retry_interval' => '5s',
   'token_fetcher_expiration_buffer_time' => 30,

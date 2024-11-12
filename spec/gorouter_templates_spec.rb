@@ -302,9 +302,99 @@ describe 'gorouter' do
         end
       end
 
-      describe 'max_header_kb' do
-        it 'should set max_header_kb' do
-          expect(parsed_yaml['max_header_bytes']).to eq(1_048_576)
+      describe 'max_(request_)header_kb' do
+        context 'as a default' do
+          it 'should set max_request_header_bytes' do
+            expect(parsed_yaml['max_request_header_bytes']).to eq(1_048_576)
+          end
+        end
+
+        context 'when only max_header_kb is set' do
+          before do
+            deployment_manifest_fragment['router']['max_header_kb'] = 10
+          end
+          it 'should set max_request_header_bytes according to it' do
+            expect(parsed_yaml['max_request_header_bytes']).to eq(10_240)
+          end
+        end
+
+        context 'when max_header_kb and max_request_header_kb are set' do
+          before do
+            deployment_manifest_fragment['router']['max_header_kb'] = 10
+            deployment_manifest_fragment['router']['max_request_header_kb'] = 20
+          end
+          it 'should set max_request_header_bytes according to max_request_header_kb' do
+            expect(parsed_yaml['max_request_header_bytes']).to eq(20_480)
+          end
+        end
+      end
+
+      describe 'max_response_header_kb' do
+        context 'when max_response_header_kb is not set' do
+          it 'sets them to 0' do
+            expect(parsed_yaml['max_response_header_bytes']).to eq(0)
+          end
+        end
+        context 'when max_response_header_kb is set to 10' do
+          before do
+            deployment_manifest_fragment['router']['max_response_header_kb'] = 10
+          end
+
+          it 'sets max_response_header_bytes to 10240' do
+            expect(parsed_yaml['max_response_header_bytes']).to eq(10_240)
+          end
+        end
+      end
+
+      describe 'max_request_headers' do
+        context 'when max_request_headers is not set' do
+          it 'sets them to 0' do
+            expect(parsed_yaml['max_request_headers']).to eq(0)
+          end
+        end
+        context 'when max_request_headers is set to 10' do
+          before do
+            deployment_manifest_fragment['router']['max_request_headers'] = 10
+          end
+
+          it 'should error' do
+            expect { raise parsed_yaml }.to raise_error(RuntimeError, 'header limit too low, should be disabled (0) or at least 30')
+          end
+        end
+        context 'when max_request_headers is set to 30' do
+          before do
+            deployment_manifest_fragment['router']['max_request_headers'] = 30
+          end
+
+          it 'sets max_response_headers to 30' do
+            expect(parsed_yaml['max_request_headers']).to eq(30)
+          end
+        end
+      end
+
+      describe 'max_response_headers' do
+        context 'when max_response_headers is not set' do
+          it 'sets them to 0' do
+            expect(parsed_yaml['max_response_headers']).to eq(0)
+          end
+        end
+        context 'when max_response_headers is set to 10' do
+          before do
+            deployment_manifest_fragment['router']['max_response_headers'] = 10
+          end
+
+          it 'should error' do
+            expect { raise parsed_yaml }.to raise_error(RuntimeError, 'header limit too low, should be disabled (0) or at least 30')
+          end
+        end
+        context 'when max_response_headers is set to 30' do
+          before do
+            deployment_manifest_fragment['router']['max_response_headers'] = 30
+          end
+
+          it 'sets max_response_headers to 30' do
+            expect(parsed_yaml['max_response_headers']).to eq(30)
+          end
         end
       end
 
