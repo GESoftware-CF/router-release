@@ -6,15 +6,15 @@ replace github.com/cactus/go-statsd-client => github.com/cactus/go-statsd-client
 
 require (
 	code.cloudfoundry.org/bbs v0.0.0-20241029001107-2bebce403fed
-	code.cloudfoundry.org/cfhttp/v2 v2.20.0
-	code.cloudfoundry.org/clock v1.20.0
-	code.cloudfoundry.org/debugserver v0.23.0
-	code.cloudfoundry.org/eventhub v0.17.0
+	code.cloudfoundry.org/cfhttp/v2 v2.21.0
+	code.cloudfoundry.org/clock v1.21.0
+	code.cloudfoundry.org/debugserver v0.24.0
+	code.cloudfoundry.org/eventhub v0.18.0
 	code.cloudfoundry.org/go-metric-registry v0.0.0-20241104233614-1bb1a592dfb9
-	code.cloudfoundry.org/lager/v3 v3.14.0
-	code.cloudfoundry.org/localip v0.18.0
+	code.cloudfoundry.org/lager/v3 v3.15.0
+	code.cloudfoundry.org/localip v0.19.0
 	code.cloudfoundry.org/locket v0.0.0-20241029002438-07ee8ada566a
-	code.cloudfoundry.org/tlsconfig v0.8.0
+	code.cloudfoundry.org/tlsconfig v0.9.0
 	github.com/armon/go-proxyproto v0.1.0
 	github.com/cactus/go-statsd-client v3.2.1+incompatible
 	github.com/cloudfoundry-community/go-uaa v0.3.3
@@ -40,7 +40,7 @@ require (
 	github.com/urfave/cli v1.22.16
 	github.com/urfave/negroni/v3 v3.1.1
 	github.com/vito/go-sse v1.1.2
-	go.step.sm/crypto v0.54.0
+	go.step.sm/crypto v0.54.2
 	go.uber.org/zap v1.27.0
 	go.uber.org/zap/exp v0.3.0
 	golang.org/x/crypto v0.29.0
@@ -48,13 +48,13 @@ require (
 	golang.org/x/oauth2 v0.24.0
 	golang.org/x/tools v0.27.0
 	google.golang.org/grpc v1.68.0
-	google.golang.org/protobuf v1.35.1
+	google.golang.org/protobuf v1.35.2
 	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
-	code.cloudfoundry.org/diego-logging-client v0.28.0 // indirect
-	code.cloudfoundry.org/durationjson v0.18.0 // indirect
+	code.cloudfoundry.org/diego-logging-client v0.29.0 // indirect
+	code.cloudfoundry.org/durationjson v0.19.0 // indirect
 	code.cloudfoundry.org/go-diodes v0.0.0-20241104194350-6f18271962f1 // indirect
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1 // indirect
 	code.cloudfoundry.org/inigo v0.0.0-20210615140442-4bdc4f6e44d5 // indirect
@@ -100,6 +100,6 @@ require (
 	golang.org/x/sys v0.27.0 // indirect
 	golang.org/x/text v0.20.0 // indirect
 	golang.org/x/time v0.8.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20241104194629-dd2ea8efbc28 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20241113202542-65e8d215514f // indirect
 	gopkg.in/alexcesaro/statsd.v2 v2.0.0 // indirect
 )
