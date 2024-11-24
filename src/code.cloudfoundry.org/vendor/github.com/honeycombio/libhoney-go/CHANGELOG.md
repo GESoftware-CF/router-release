@@ -1,5 +1,19 @@
 # libhoney Changelog
 
+## 1.24.0 2024-11-22
+
+### Enhancements
+
+- feat: improve error string for too large events (#258) | @maplebed
+
+### Maintenance
+
+- maint(build): add 1.23 to supported versions (#256) | @lizthegrey
+- docs: update vulnerability reporting process (#253) | @robbkidd
+- maint(deps): bump github.com/DataDog/zstd from 1.5.5 to 1.5.6 (#254) | @dependabot
+- maint(deps): bump github.com/klauspost/compress from 1.17.8 to 1.17.9 (#251) | @dependabot
+- build(deps): bump github.com/gorilla/schema from 1.2.0 to 1.4.1 in /examples/webapp (#252) | @dependabot
+
 ## 1.23.1 2024-06-13
 
 ### Fixes

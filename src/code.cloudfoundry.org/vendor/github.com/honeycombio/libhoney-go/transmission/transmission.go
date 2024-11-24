@@ -586,8 +586,11 @@ func (b *batchAgg) encodeBatchJSON(events []*Event) ([]byte, int) {
 		}
 		// if the event is too large to ever send, add an error to the queue
 		if len(evByt) > apiEventSizeMax {
+			// if this event happens to have a `name` or `service.name` field, include them for easier debugging
+			extraInfo := getExceedsMaxEventSizeExtraInfo(ev)
+			// log the error and enqueue a response
 			b.enqueueResponse(Response{
-				Err:      fmt.Errorf("event exceeds max event size of %d bytes, API will not accept this event", apiEventSizeMax),
+				Err:      fmt.Errorf("event exceeds max event size of %d bytes, API will not accept this event.%s", apiEventSizeMax, extraInfo),
 				Metadata: ev.Metadata,
 			})
 			events[i] = nil
@@ -641,8 +644,11 @@ func (b *batchAgg) encodeBatchMsgp(events []*Event) ([]byte, int) {
 		}
 		// if the event is too large to ever send, add an error to the queue
 		if len(evByt) > apiEventSizeMax {
+			// if this event happens to have a `name` or `service.name` field, include them for easier debugging
+			extraInfo := getExceedsMaxEventSizeExtraInfo(ev)
+			// log the error and enqueue a response
 			b.enqueueResponse(Response{
-				Err:      fmt.Errorf("event exceeds max event size of %d bytes, API will not accept this event", apiEventSizeMax),
+				Err:      fmt.Errorf("event exceeds max event size of %d bytes, API will not accept this event.%s", apiEventSizeMax, extraInfo),
 				Metadata: ev.Metadata,
 			})
 			events[i] = nil
@@ -741,4 +747,15 @@ type nower interface {
 
 func buildRequestURL(apiHost, dataset string) (string, error) {
 	return url.JoinPath(apiHost, "/1/batch", url.PathEscape(dataset))
+}
+
+func getExceedsMaxEventSizeExtraInfo(ev *Event) string {
+	var extraInfo string
+	if evName, ok := ev.Data["name"]; ok {
+		extraInfo = fmt.Sprintf(" Name: \"%v\"", evName)
+	}
+	if evServiceName, ok := ev.Data["service.name"]; ok {
+		extraInfo = fmt.Sprintf("%s Service Name: \"%v\"", extraInfo, evServiceName)
+	}
+	return extraInfo
 }

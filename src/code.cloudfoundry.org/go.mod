@@ -6,15 +6,15 @@ replace github.com/cactus/go-statsd-client => github.com/cactus/go-statsd-client
 
 require (
 	code.cloudfoundry.org/bbs v0.0.0-20241029001107-2bebce403fed
-	code.cloudfoundry.org/cfhttp/v2 v2.21.0
+	code.cloudfoundry.org/cfhttp/v2 v2.22.0
 	code.cloudfoundry.org/clock v1.21.0
-	code.cloudfoundry.org/debugserver v0.24.0
+	code.cloudfoundry.org/debugserver v0.25.0
 	code.cloudfoundry.org/eventhub v0.18.0
 	code.cloudfoundry.org/go-metric-registry v0.0.0-20241104233614-1bb1a592dfb9
 	code.cloudfoundry.org/lager/v3 v3.15.0
 	code.cloudfoundry.org/localip v0.19.0
 	code.cloudfoundry.org/locket v0.0.0-20241029002438-07ee8ada566a
-	code.cloudfoundry.org/tlsconfig v0.9.0
+	code.cloudfoundry.org/tlsconfig v0.10.0
 	github.com/armon/go-proxyproto v0.1.0
 	github.com/cactus/go-statsd-client v3.2.1+incompatible
 	github.com/cloudfoundry-community/go-uaa v0.3.3
@@ -31,7 +31,7 @@ require (
 	github.com/nats-io/nats-server/v2 v2.10.22
 	github.com/nats-io/nats.go v1.37.0
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
-	github.com/onsi/ginkgo/v2 v2.21.0
+	github.com/onsi/ginkgo/v2 v2.22.0
 	github.com/onsi/gomega v1.35.1
 	github.com/openzipkin/zipkin-go v0.4.3
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475
@@ -53,7 +53,7 @@ require (
 )
 
 require (
-	code.cloudfoundry.org/diego-logging-client v0.29.0 // indirect
+	code.cloudfoundry.org/diego-logging-client v0.30.0 // indirect
 	code.cloudfoundry.org/durationjson v0.19.0 // indirect
 	code.cloudfoundry.org/go-diodes v0.0.0-20241104194350-6f18271962f1 // indirect
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1 // indirect
@@ -71,8 +71,8 @@ require (
 	github.com/go-test/deep v1.0.7 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
-	github.com/google/pprof v0.0.0-20241101162523-b92577c0c142 // indirect
-	github.com/honeycombio/libhoney-go v1.23.1 // indirect
+	github.com/google/pprof v0.0.0-20241122213907-cbe949e5a41b // indirect
+	github.com/honeycombio/libhoney-go v1.24.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/jackc/pgx/v5 v5.7.1 // indirect
@@ -100,6 +100,6 @@ require (
 	golang.org/x/sys v0.27.0 // indirect
 	golang.org/x/text v0.20.0 // indirect
 	golang.org/x/time v0.8.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20241113202542-65e8d215514f // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20241118233622-e639e219e697 // indirect
 	gopkg.in/alexcesaro/statsd.v2 v2.0.0 // indirect
 )
