@@ -6,13 +6,13 @@ replace github.com/cactus/go-statsd-client => github.com/cactus/go-statsd-client
 
 require (
 	code.cloudfoundry.org/bbs v0.0.0-20241029001107-2bebce403fed
-	code.cloudfoundry.org/cfhttp/v2 v2.22.0
-	code.cloudfoundry.org/clock v1.21.0
-	code.cloudfoundry.org/debugserver v0.25.0
-	code.cloudfoundry.org/eventhub v0.18.0
-	code.cloudfoundry.org/go-metric-registry v0.0.0-20241104233614-1bb1a592dfb9
-	code.cloudfoundry.org/lager/v3 v3.15.0
-	code.cloudfoundry.org/localip v0.19.0
+	code.cloudfoundry.org/cfhttp/v2 v2.23.0
+	code.cloudfoundry.org/clock v1.22.0
+	code.cloudfoundry.org/debugserver v0.26.0
+	code.cloudfoundry.org/eventhub v0.19.0
+	code.cloudfoundry.org/go-metric-registry v0.0.0-20241125210533-4270b99b04f2
+	code.cloudfoundry.org/lager/v3 v3.16.0
+	code.cloudfoundry.org/localip v0.20.0
 	code.cloudfoundry.org/locket v0.0.0-20241029002438-07ee8ada566a
 	code.cloudfoundry.org/tlsconfig v0.10.0
 	github.com/armon/go-proxyproto v0.1.0
@@ -32,7 +32,7 @@ require (
 	github.com/nats-io/nats.go v1.37.0
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
 	github.com/onsi/ginkgo/v2 v2.22.0
-	github.com/onsi/gomega v1.35.1
+	github.com/onsi/gomega v1.36.0
 	github.com/openzipkin/zipkin-go v0.4.3
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475
 	github.com/tedsuo/ifrit v0.0.0-20230516164442-7862c310ad26
@@ -53,9 +53,9 @@ require (
 )
 
 require (
-	code.cloudfoundry.org/diego-logging-client v0.30.0 // indirect
-	code.cloudfoundry.org/durationjson v0.19.0 // indirect
-	code.cloudfoundry.org/go-diodes v0.0.0-20241104194350-6f18271962f1 // indirect
+	code.cloudfoundry.org/diego-logging-client v0.31.0 // indirect
+	code.cloudfoundry.org/durationjson v0.20.0 // indirect
+	code.cloudfoundry.org/go-diodes v0.0.0-20241125060457-612558937770 // indirect
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1 // indirect
 	code.cloudfoundry.org/inigo v0.0.0-20210615140442-4bdc4f6e44d5 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
@@ -71,7 +71,7 @@ require (
 	github.com/go-test/deep v1.0.7 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
-	github.com/google/pprof v0.0.0-20241122213907-cbe949e5a41b // indirect
+	github.com/google/pprof v0.0.0-20241128161848-dc51965c6481 // indirect
 	github.com/honeycombio/libhoney-go v1.24.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
@@ -82,7 +82,7 @@ require (
 	github.com/minio/highwayhash v1.0.3 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/nats-io/jwt/v2 v2.7.2 // indirect
-	github.com/nats-io/nkeys v0.4.7 // indirect
+	github.com/nats-io/nkeys v0.4.8 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.20.5 // indirect
