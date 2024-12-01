@@ -80,6 +80,7 @@ files:
   - code.cloudfoundry.org/vendor/github.com/onsi/gomega/internal/*.go # gosub
   - code.cloudfoundry.org/vendor/github.com/onsi/gomega/internal/gutil/*.go # gosub
   - code.cloudfoundry.org/vendor/github.com/onsi/gomega/matchers/*.go # gosub
+  - code.cloudfoundry.org/vendor/github.com/onsi/gomega/matchers/internal/miter/*.go # gosub
   - code.cloudfoundry.org/vendor/github.com/onsi/gomega/matchers/support/goraph/bipartitegraph/*.go # gosub
   - code.cloudfoundry.org/vendor/github.com/onsi/gomega/matchers/support/goraph/edge/*.go # gosub
   - code.cloudfoundry.org/vendor/github.com/onsi/gomega/matchers/support/goraph/node/*.go # gosub

@@ -151,6 +151,7 @@ files:
   - code.cloudfoundry.org/vendor/github.com/onsi/gomega/internal/*.go # gosub
   - code.cloudfoundry.org/vendor/github.com/onsi/gomega/internal/gutil/*.go # gosub
   - code.cloudfoundry.org/vendor/github.com/onsi/gomega/matchers/*.go # gosub
+  - code.cloudfoundry.org/vendor/github.com/onsi/gomega/matchers/internal/miter/*.go # gosub
   - code.cloudfoundry.org/vendor/github.com/onsi/gomega/matchers/support/goraph/bipartitegraph/*.go # gosub
   - code.cloudfoundry.org/vendor/github.com/onsi/gomega/matchers/support/goraph/edge/*.go # gosub
   - code.cloudfoundry.org/vendor/github.com/onsi/gomega/matchers/support/goraph/node/*.go # gosub
@@ -214,7 +215,6 @@ files:
   - code.cloudfoundry.org/vendor/golang.org/x/crypto/chacha20/*.go # gosub
   - code.cloudfoundry.org/vendor/golang.org/x/crypto/chacha20/*.s # gosub
   - code.cloudfoundry.org/vendor/golang.org/x/crypto/curve25519/*.go # gosub
-  - code.cloudfoundry.org/vendor/golang.org/x/crypto/ed25519/*.go # gosub
   - code.cloudfoundry.org/vendor/golang.org/x/crypto/internal/alias/*.go # gosub
   - code.cloudfoundry.org/vendor/golang.org/x/crypto/internal/poly1305/*.go # gosub
   - code.cloudfoundry.org/vendor/golang.org/x/crypto/internal/poly1305/*.s # gosub
