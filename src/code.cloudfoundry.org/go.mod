@@ -6,15 +6,15 @@ replace github.com/cactus/go-statsd-client => github.com/cactus/go-statsd-client
 
 require (
 	code.cloudfoundry.org/bbs v0.0.0-20241029001107-2bebce403fed
-	code.cloudfoundry.org/cfhttp/v2 v2.23.0
-	code.cloudfoundry.org/clock v1.22.0
-	code.cloudfoundry.org/debugserver v0.26.0
-	code.cloudfoundry.org/eventhub v0.19.0
+	code.cloudfoundry.org/cfhttp/v2 v2.24.0
+	code.cloudfoundry.org/clock v1.23.0
+	code.cloudfoundry.org/debugserver v0.27.0
+	code.cloudfoundry.org/eventhub v0.20.0
 	code.cloudfoundry.org/go-metric-registry v0.0.0-20241125210533-4270b99b04f2
-	code.cloudfoundry.org/lager/v3 v3.16.0
-	code.cloudfoundry.org/localip v0.20.0
+	code.cloudfoundry.org/lager/v3 v3.17.0
+	code.cloudfoundry.org/localip v0.21.0
 	code.cloudfoundry.org/locket v0.0.0-20241029002438-07ee8ada566a
-	code.cloudfoundry.org/tlsconfig v0.10.0
+	code.cloudfoundry.org/tlsconfig v0.11.0
 	github.com/armon/go-proxyproto v0.1.0
 	github.com/cactus/go-statsd-client v3.2.1+incompatible
 	github.com/cloudfoundry-community/go-uaa v0.3.3
@@ -40,22 +40,22 @@ require (
 	github.com/urfave/cli v1.22.16
 	github.com/urfave/negroni/v3 v3.1.1
 	github.com/vito/go-sse v1.1.2
-	go.step.sm/crypto v0.54.2
+	go.step.sm/crypto v0.55.0
 	go.uber.org/zap v1.27.0
 	go.uber.org/zap/exp v0.3.0
-	golang.org/x/crypto v0.29.0
-	golang.org/x/net v0.31.0
+	golang.org/x/crypto v0.30.0
+	golang.org/x/net v0.32.0
 	golang.org/x/oauth2 v0.24.0
-	golang.org/x/tools v0.27.0
-	google.golang.org/grpc v1.68.0
+	golang.org/x/tools v0.28.0
+	google.golang.org/grpc v1.68.1
 	google.golang.org/protobuf v1.35.2
 	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
-	code.cloudfoundry.org/diego-logging-client v0.31.0 // indirect
-	code.cloudfoundry.org/durationjson v0.20.0 // indirect
-	code.cloudfoundry.org/go-diodes v0.0.0-20241125060457-612558937770 // indirect
+	code.cloudfoundry.org/diego-logging-client v0.32.0 // indirect
+	code.cloudfoundry.org/durationjson v0.21.0 // indirect
+	code.cloudfoundry.org/go-diodes v0.0.0-20241202111822-779c0b5a3368 // indirect
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1 // indirect
 	code.cloudfoundry.org/inigo v0.0.0-20210615140442-4bdc4f6e44d5 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
@@ -71,7 +71,7 @@ require (
 	github.com/go-test/deep v1.0.7 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
-	github.com/google/pprof v0.0.0-20241128161848-dc51965c6481 // indirect
+	github.com/google/pprof v0.0.0-20241206021119-61a79c692802 // indirect
 	github.com/honeycombio/libhoney-go v1.24.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
@@ -87,7 +87,7 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.20.5 // indirect
 	github.com/prometheus/client_model v0.6.1 // indirect
-	github.com/prometheus/common v0.60.1 // indirect
+	github.com/prometheus/common v0.61.0 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/square/certstrap v1.3.0 // indirect
@@ -96,10 +96,10 @@ require (
 	go.uber.org/automaxprocs v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/mod v0.22.0 // indirect
-	golang.org/x/sync v0.9.0 // indirect
-	golang.org/x/sys v0.27.0 // indirect
-	golang.org/x/text v0.20.0 // indirect
+	golang.org/x/sync v0.10.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/text v0.21.0 // indirect
 	golang.org/x/time v0.8.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20241118233622-e639e219e697 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20241206012308-a4fef0638583 // indirect
 	gopkg.in/alexcesaro/statsd.v2 v2.0.0 // indirect
 )
