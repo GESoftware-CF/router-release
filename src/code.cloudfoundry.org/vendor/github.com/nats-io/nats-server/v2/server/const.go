@@ -55,7 +55,7 @@ func init() {
 
 const (
 	// VERSION is the current version for the server.
-	VERSION = "2.10.22"
+	VERSION = "2.10.23"
 
 	// PROTO is the currently supported protocol.
 	// 0 was the original
@@ -170,6 +170,9 @@ const (
 
 	// MAX_HPUB_ARGS Maximum possible number of arguments from HPUB proto.
 	MAX_HPUB_ARGS = 4
+
+	// MAX_RSUB_ARGS Maximum possible number of arguments from a RS+/LS+ proto.
+	MAX_RSUB_ARGS = 6
 
 	// DEFAULT_MAX_CLOSED_CLIENTS is the maximum number of closed connections we hold onto.
 	DEFAULT_MAX_CLOSED_CLIENTS = 10000

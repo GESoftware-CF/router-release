@@ -4160,8 +4160,9 @@ func getHeader(key string, hdr []byte) []byte {
 
 // For bytes.HasPrefix below.
 var (
-	jsRequestNextPreB = []byte(jsRequestNextPre)
-	jsDirectGetPreB   = []byte(jsDirectGetPre)
+	jsRequestNextPreB  = []byte(jsRequestNextPre)
+	jsDirectGetPreB    = []byte(jsDirectGetPre)
+	jsConsumerInfoPreB = []byte(JSApiConsumerInfoPre)
 )
 
 // processServiceImport is an internal callback when a subscription matches an imported service
@@ -4181,12 +4182,16 @@ func (c *client) processServiceImport(si *serviceImport, acc *Account, msg []byt
 		}
 	}
 
+	var checkJS, checkConsumerInfo bool
+
 	acc.mu.RLock()
-	var checkJS bool
 	shouldReturn := si.invalid || acc.sl == nil
 	if !shouldReturn && !isResponse && si.to == jsAllAPI {
 		if bytes.HasPrefix(c.pa.subject, jsDirectGetPreB) || bytes.HasPrefix(c.pa.subject, jsRequestNextPreB) {
 			checkJS = true
+		} else if len(c.pa.psi) == 0 && bytes.HasPrefix(c.pa.subject, jsConsumerInfoPreB) {
+			// Only check if we are clustered and expecting a reply.
+			checkConsumerInfo = len(c.pa.reply) > 0 && c.srv.JetStreamIsClustered()
 		}
 	}
 	siAcc := si.acc
@@ -4198,6 +4203,15 @@ func (c *client) processServiceImport(si *serviceImport, acc *Account, msg []byt
 	// TODO(dlc) - Come up with something better.
 	if shouldReturn || (checkJS && si.se != nil && si.se.acc == c.srv.SystemAccount()) {
 		return
+	}
+
+	// Here we will do a fast check for consumer info only to check if it does not exists. This will spread the
+	// load to all servers with connected clients since service imports are processed at point of entry.
+	// Only call for clustered setups.
+	if checkConsumerInfo && si.se != nil && si.se.acc == c.srv.SystemAccount() {
+		if c.srv.jsConsumerProcessMissing(c, acc) {
+			return
+		}
 	}
 
 	var nrr []byte
@@ -4570,6 +4584,21 @@ func (c *client) processMsgResults(acc *Account, r *SublistResult, msg, deliver,
 	// Declared here because of goto.
 	var queues [][]byte
 
+	var leafOrigin string
+	switch c.kind {
+	case ROUTER:
+		if len(c.pa.origin) > 0 {
+			// Picture a message sent from a leafnode to a server that then routes
+			// this message: CluserA -leaf-> HUB1 -route-> HUB2
+			// Here we are in HUB2, so c.kind is a ROUTER, but the message will
+			// contain a c.pa.origin set to "ClusterA" to indicate that this message
+			// originated from that leafnode cluster.
+			leafOrigin = bytesToString(c.pa.origin)
+		}
+	case LEAF:
+		leafOrigin = c.remoteCluster()
+	}
+
 	// For all routes/leaf/gateway connections, we may still want to send messages to
 	// leaf nodes or routes even if there are no queue filters since we collect
 	// them above and do not process inline like normal clients.
@@ -4608,12 +4637,24 @@ func (c *client) processMsgResults(acc *Account, r *SublistResult, msg, deliver,
 			ql := _ql[:0]
 			for i := 0; i < len(qsubs); i++ {
 				sub = qsubs[i]
-				if sub.client.kind == LEAF || sub.client.kind == ROUTER {
-					// If we have assigned an rsub already, replace if the destination is a LEAF
-					// since we want to favor that compared to a ROUTER. We could make sure that
-					// we override only if previous was a ROUTE and not a LEAF, but we don't have to.
-					if rsub == nil || sub.client.kind == LEAF {
+				if dst := sub.client.kind; dst == LEAF || dst == ROUTER {
+					// If the destination is a LEAF, we first need to make sure
+					// that we would not pick one that was the origin of this
+					// message.
+					if dst == LEAF && leafOrigin != _EMPTY_ && leafOrigin == sub.client.remoteCluster() {
+						continue
+					}
+					// If we have assigned a ROUTER rsub already, replace if
+					// the destination is a LEAF since we want to favor that.
+					if rsub == nil || (rsub.client.kind == ROUTER && dst == LEAF) {
 						rsub = sub
+					} else if dst == LEAF {
+						// We already have a LEAF and this is another one.
+						// Flip a coin to see if we swap it or not.
+						// See https://github.com/nats-io/nats-server/issues/6040
+						if fastrand.Uint32()%2 == 1 {
+							rsub = sub
+						}
 					}
 				} else {
 					ql = append(ql, sub)
@@ -4629,6 +4670,8 @@ func (c *client) processMsgResults(acc *Account, r *SublistResult, msg, deliver,
 		}
 
 		// Find a subscription that is able to deliver this message starting at a random index.
+		// Note that if the message came from a ROUTER, we will only have CLIENT or LEAF
+		// queue subs here, otherwise we can have all types.
 		for i := 0; i < lqs; i++ {
 			if sindex+i < lqs {
 				sub = qsubs[sindex+i]
@@ -4649,20 +4692,38 @@ func (c *client) processMsgResults(acc *Account, r *SublistResult, msg, deliver,
 			// Here we just care about a client or leaf and skipping a leaf and preferring locals.
 			if dst := sub.client.kind; dst == ROUTER || dst == LEAF {
 				if (src == LEAF || src == CLIENT) && dst == LEAF {
+					// If we come from a LEAF and are about to pick a LEAF connection,
+					// make sure this is not the same leaf cluster.
+					if src == LEAF && leafOrigin != _EMPTY_ && leafOrigin == sub.client.remoteCluster() {
+						continue
+					}
 					// Remember that leaf in case we don't find any other candidate.
+					// We already start randomly in lqs slice, so we don't need
+					// to do a random swap if we already have an rsub like we do
+					// when src == ROUTER above.
 					if rsub == nil {
 						rsub = sub
 					}
 					continue
 				} else {
-					// We would be picking a route, but if we had remembered a "hub" leaf,
-					// then pick that one instead of the route.
-					if rsub != nil && rsub.client.kind == LEAF && rsub.client.isHubLeafNode() {
-						break
+					// We want to favor qsubs in our own cluster. If the routed
+					// qsub has an origin, it means that is on behalf of a leaf.
+					// We need to treat it differently.
+					if len(sub.origin) > 0 {
+						// If we already have an rsub, nothing to do. Also, do
+						// not pick a routed qsub for a LEAF origin cluster
+						// that is the same than where the message comes from.
+						if rsub == nil && (leafOrigin == _EMPTY_ || leafOrigin != bytesToString(sub.origin)) {
+							rsub = sub
+						}
+						continue
 					}
+					// This is a qsub that is local on the remote server (or
+					// we are connected to an older server and we don't know).
+					// Pick this one and be done.
 					rsub = sub
+					break
 				}
-				break
 			}
 
 			// Assume delivery subject is normal subject to this point.
@@ -4749,18 +4810,11 @@ sendToRoutesOrLeafs:
 		// If so make sure we do not send it back to the same cluster for a different
 		// leafnode. Cluster wide no echo.
 		if dc.kind == LEAF {
-			// Check two scenarios. One is inbound from a route (c.pa.origin)
-			if c.kind == ROUTER && len(c.pa.origin) > 0 {
-				if bytesToString(c.pa.origin) == dc.remoteCluster() {
-					continue
-				}
-			}
-			// The other is leaf to leaf.
-			if c.kind == LEAF {
-				src, dest := c.remoteCluster(), dc.remoteCluster()
-				if src != _EMPTY_ && src == dest {
-					continue
-				}
+			// Check two scenarios. One is inbound from a route (c.pa.origin),
+			// and the other is leaf to leaf. In both case, leafOrigin is the one
+			// to use for the comparison.
+			if leafOrigin != _EMPTY_ && leafOrigin == dc.remoteCluster() {
+				continue
 			}
 
 			// We need to check if this is a request that has a stamped client information header.

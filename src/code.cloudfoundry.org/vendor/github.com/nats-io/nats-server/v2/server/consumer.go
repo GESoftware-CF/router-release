@@ -345,6 +345,7 @@ type consumer struct {
 	outq              *jsOutQ
 	pending           map[uint64]*Pending
 	ptmr              *time.Timer
+	ptmrEnd           time.Time
 	rdq               []uint64
 	rdqi              avl.SequenceSet
 	rdc               map[uint64]uint64
@@ -504,7 +505,7 @@ func checkConsumerCfg(
 	}
 
 	// Check if we have a BackOff defined that MaxDeliver is within range etc.
-	if lbo := len(config.BackOff); lbo > 0 && config.MaxDeliver != -1 && config.MaxDeliver <= lbo {
+	if lbo := len(config.BackOff); lbo > 0 && config.MaxDeliver != -1 && lbo > config.MaxDeliver {
 		return NewJSConsumerMaxDeliverBackoffError()
 	}
 
@@ -950,7 +951,7 @@ func (mset *stream) addConsumerWithAssignment(config *ConsumerConfig, oname stri
 	// If we have multiple filter subjects, create a sublist which we will use
 	// in calling store.LoadNextMsgMulti.
 	if len(o.cfg.FilterSubjects) > 0 {
-		o.filters = NewSublistWithCache()
+		o.filters = NewSublistNoCache()
 		for _, filter := range o.cfg.FilterSubjects {
 			o.filters.Insert(&subscription{subject: []byte(filter)})
 		}
@@ -1349,7 +1350,7 @@ func (o *consumer) setLeader(isLeader bool) {
 		stopAndClearTimer(&o.dtmr)
 
 		// Make sure to clear out any re-deliver queues
-		stopAndClearTimer(&o.ptmr)
+		o.stopAndClearPtmr()
 		o.rdq = nil
 		o.rdqi.Empty()
 		o.pending = nil
@@ -1562,6 +1563,16 @@ func (o *consumer) updateDeliveryInterest(localInterest bool) bool {
 	return false
 }
 
+const (
+	defaultConsumerNotActiveStartInterval = 30 * time.Second
+	defaultConsumerNotActiveMaxInterval   = 5 * time.Minute
+)
+
+var (
+	consumerNotActiveStartInterval = defaultConsumerNotActiveStartInterval
+	consumerNotActiveMaxInterval   = defaultConsumerNotActiveMaxInterval
+)
+
 func (o *consumer) deleteNotActive() {
 	o.mu.Lock()
 	if o.mset == nil {
@@ -1627,12 +1638,8 @@ func (o *consumer) deleteNotActive() {
 			// Check to make sure we went away.
 			// Don't think this needs to be a monitored go routine.
 			go func() {
-				const (
-					startInterval = 30 * time.Second
-					maxInterval   = 5 * time.Minute
-				)
-				jitter := time.Duration(rand.Int63n(int64(startInterval)))
-				interval := startInterval + jitter
+				jitter := time.Duration(rand.Int63n(int64(consumerNotActiveStartInterval)))
+				interval := consumerNotActiveStartInterval + jitter
 				ticker := time.NewTicker(interval)
 				defer ticker.Stop()
 				for range ticker.C {
@@ -1647,7 +1654,7 @@ func (o *consumer) deleteNotActive() {
 					if nca != nil && nca == ca {
 						s.Warnf("Consumer assignment for '%s > %s > %s' not cleaned up, retrying", acc, stream, name)
 						meta.ForwardProposal(removeEntry)
-						if interval < maxInterval {
+						if interval < consumerNotActiveMaxInterval {
 							interval *= 2
 							ticker.Reset(interval)
 						}
@@ -1739,7 +1746,7 @@ func (o *consumer) forceExpirePending() {
 				p.Timestamp += off
 			}
 		}
-		o.ptmr.Reset(o.ackWait(0))
+		o.resetPtmr(o.ackWait(0))
 	}
 	o.signalNewMessages()
 }
@@ -1842,7 +1849,7 @@ func (acc *Account) checkNewConsumerConfig(cfg, ncfg *ConsumerConfig) error {
 	}
 
 	// Check if BackOff is defined, MaxDeliver is within range.
-	if lbo := len(ncfg.BackOff); lbo > 0 && ncfg.MaxDeliver != -1 && ncfg.MaxDeliver <= lbo {
+	if lbo := len(ncfg.BackOff); lbo > 0 && ncfg.MaxDeliver != -1 && lbo > ncfg.MaxDeliver {
 		return NewJSConsumerMaxDeliverBackoffError()
 	}
 
@@ -1882,7 +1889,7 @@ func (o *consumer) updateConfig(cfg *ConsumerConfig) error {
 	// AckWait
 	if cfg.AckWait != o.cfg.AckWait {
 		if o.ptmr != nil {
-			o.ptmr.Reset(100 * time.Millisecond)
+			o.resetPtmr(100 * time.Millisecond)
 		}
 	}
 	// Rate Limit
@@ -1940,7 +1947,7 @@ func (o *consumer) updateConfig(cfg *ConsumerConfig) error {
 			if len(o.subjf) == 1 {
 				o.filters = nil
 			} else {
-				o.filters = NewSublistWithCache()
+				o.filters = NewSublistNoCache()
 				for _, filter := range o.subjf {
 					o.filters.Insert(&subscription{subject: []byte(filter.subject)})
 				}
@@ -2205,9 +2212,7 @@ func (o *consumer) updateDelivered(dseq, sseq, dc uint64, ts int64) {
 		n += binary.PutUvarint(b[n:], dc)
 		n += binary.PutVarint(b[n:], ts)
 		o.propose(b[:n])
-	}
-	if o.store != nil {
-		// Update local state always.
+	} else if o.store != nil {
 		o.store.UpdateDelivered(dseq, sseq, dc, ts)
 	}
 	// Update activity.
@@ -2413,7 +2418,7 @@ func (o *consumer) processNak(sseq, dseq, dc uint64, nak []byte) {
 					if o.ptmr != nil {
 						// Want checkPending to run and figure out the next timer ttl.
 						// TODO(dlc) - We could optimize this maybe a bit more and track when we expect the timer to fire.
-						o.ptmr.Reset(10 * time.Millisecond)
+						o.resetPtmr(10 * time.Millisecond)
 					}
 				}
 				// Nothing else for use to do now so return.
@@ -2547,11 +2552,7 @@ func (o *consumer) applyState(state *ConsumerState) {
 		if o.cfg.AckWait < delay {
 			delay = o.ackWait(0)
 		}
-		if o.ptmr == nil {
-			o.ptmr = time.AfterFunc(delay, o.checkPending)
-		} else {
-			o.ptmr.Reset(delay)
-		}
+		o.resetPtmr(delay)
 	}
 }
 
@@ -2786,16 +2787,28 @@ func (o *consumer) processAckMsg(sseq, dseq, dc uint64, reply string, doSample b
 		return false
 	}
 
-	// Check if this ack is above the current pointer to our next to deliver.
-	// This could happen on a cooperative takeover with high speed deliveries.
-	if sseq >= o.sseq {
-		o.sseq = sseq + 1
-	}
-
 	mset := o.mset
 	if mset == nil || mset.closed.Load() {
 		o.mu.Unlock()
 		return false
+	}
+
+	// Check if this ack is above the current pointer to our next to deliver.
+	// This could happen on a cooperative takeover with high speed deliveries.
+	if sseq >= o.sseq {
+		// Let's make sure this is valid.
+		// This is only received on the consumer leader, so should never be higher
+		// than the last stream sequence.
+		var ss StreamState
+		mset.store.FastState(&ss)
+		if sseq > ss.LastSeq {
+			o.srv.Warnf("JetStream consumer '%s > %s > %s' ACK sequence %d past last stream sequence of %d",
+				o.acc.Name, o.stream, o.name, sseq, ss.LastSeq)
+			// FIXME(dlc) - For 2.11 onwards should we return an error here to the caller?
+			o.mu.Unlock()
+			return false
+		}
+		o.sseq = sseq + 1
 	}
 
 	// Let the owning stream know if we are interest or workqueue retention based.
@@ -3011,6 +3024,14 @@ func (o *consumer) needAck(sseq uint64, subj string) bool {
 	return needAck
 }
 
+// Used in nextReqFromMsg, since the json.Unmarshal causes the request
+// struct to escape to the heap always. This should reduce GC pressure.
+var jsGetNextPool = sync.Pool{
+	New: func() any {
+		return &JSApiConsumerGetNextRequest{}
+	},
+}
+
 // Helper for the next message requests.
 func nextReqFromMsg(msg []byte) (time.Time, int, int, bool, time.Duration, time.Time, error) {
 	req := bytes.TrimSpace(msg)
@@ -3020,7 +3041,11 @@ func nextReqFromMsg(msg []byte) (time.Time, int, int, bool, time.Duration, time.
 		return time.Time{}, 1, 0, false, 0, time.Time{}, nil
 
 	case req[0] == '{':
-		var cr JSApiConsumerGetNextRequest
+		cr := jsGetNextPool.Get().(*JSApiConsumerGetNextRequest)
+		defer func() {
+			*cr = JSApiConsumerGetNextRequest{}
+			jsGetNextPool.Put(cr)
+		}()
 		if err := json.Unmarshal(req, &cr); err != nil {
 			return time.Time{}, -1, 0, false, 0, time.Time{}, err
 		}
@@ -3420,6 +3445,7 @@ func (o *consumer) processNextMsgRequest(reply string, msg []byte) {
 
 	if err := o.waiting.add(wr); err != nil {
 		sendErr(409, "Exceeded MaxWaiting")
+		wr.recycle()
 		return
 	}
 	o.signalNewMessages()
@@ -3625,7 +3651,7 @@ func (o *consumer) getNextMsg() (*jsPubMsg, uint64, error) {
 	// Check if we are multi-filtered or not.
 	if filters != nil {
 		sm, sseq, err = store.LoadNextMsgMulti(filters, fseq, &pmsg.StoreMsg)
-	} else if subjf != nil { // Means single filtered subject since o.filters means > 1.
+	} else if len(subjf) > 0 { // Means single filtered subject since o.filters means > 1.
 		filter, wc := subjf[0].subject, subjf[0].hasWildcard
 		sm, sseq, err = store.LoadNextMsg(filter, wc, fseq, &pmsg.StoreMsg)
 	} else {
@@ -3817,7 +3843,7 @@ func (o *consumer) checkAckFloor() {
 	// We will set it explicitly to 1 behind our current lowest in pending, or if
 	// pending is empty, to our current delivered -1.
 	const minOffThreshold = 50
-	if o.asflr < ss.FirstSeq-minOffThreshold {
+	if ss.FirstSeq >= minOffThreshold && o.asflr < ss.FirstSeq-minOffThreshold {
 		var psseq, pdseq uint64
 		for seq, p := range o.pending {
 			if psseq == 0 || seq < psseq {
@@ -4270,37 +4296,15 @@ func (o *consumer) calculateNumPending() (npc, npf uint64) {
 	}
 
 	isLastPerSubject := o.cfg.DeliverPolicy == DeliverLastPerSubject
+	filters, subjf := o.filters, o.subjf
 
-	// Deliver Last Per Subject calculates num pending differently.
-	if isLastPerSubject {
-		// Consumer without filters.
-		if o.subjf == nil {
-			return o.mset.store.NumPending(o.sseq, _EMPTY_, isLastPerSubject)
-		}
-		// Consumer with filters.
-		for _, filter := range o.subjf {
-			lnpc, lnpf := o.mset.store.NumPending(o.sseq, filter.subject, isLastPerSubject)
-			npc += lnpc
-			if lnpf > npf {
-				npf = lnpf // Always last
-			}
-		}
-		return npc, npf
+	if filters != nil {
+		return o.mset.store.NumPendingMulti(o.sseq, filters, isLastPerSubject)
+	} else if len(subjf) > 0 {
+		filter := subjf[0].subject
+		return o.mset.store.NumPending(o.sseq, filter, isLastPerSubject)
 	}
-	// Every other Delivery Policy is handled here.
-	// Consumer without filters.
-	if o.subjf == nil {
-		return o.mset.store.NumPending(o.sseq, _EMPTY_, false)
-	}
-	// Consumer with filters.
-	for _, filter := range o.subjf {
-		lnpc, lnpf := o.mset.store.NumPending(o.sseq, filter.subject, false)
-		npc += lnpc
-		if lnpf > npf {
-			npf = lnpf // Always last
-		}
-	}
-	return npc, npf
+	return o.mset.store.NumPending(o.sseq, _EMPTY_, isLastPerSubject)
 }
 
 func convertToHeadersOnly(pmsg *jsPubMsg) {
@@ -4465,9 +4469,24 @@ func (o *consumer) trackPending(sseq, dseq uint64) {
 	if o.pending == nil {
 		o.pending = make(map[uint64]*Pending)
 	}
-	if o.ptmr == nil {
-		o.ptmr = time.AfterFunc(o.ackWait(0), o.checkPending)
+
+	// We could have a backoff that set a timer higher than what we need for this message.
+	// In that case, reset to lowest backoff required for a message redelivery.
+	minDelay := o.ackWait(0)
+	if l := len(o.cfg.BackOff); l > 0 {
+		bi := int(o.rdc[sseq])
+		if bi < 0 {
+			bi = 0
+		} else if bi >= l {
+			bi = l - 1
+		}
+		minDelay = o.ackWait(o.cfg.BackOff[bi])
 	}
+	minDeadline := time.Now().Add(minDelay)
+	if o.ptmr == nil || o.ptmrEnd.After(minDeadline) {
+		o.resetPtmr(minDelay)
+	}
+
 	if p, ok := o.pending[sseq]; ok {
 		// Update timestamp but keep original consumer delivery sequence.
 		// So do not update p.Sequence.
@@ -4590,23 +4609,20 @@ func (o *consumer) removeFromRedeliverQueue(seq uint64) bool {
 
 // Checks the pending messages.
 func (o *consumer) checkPending() {
-	o.mu.RLock()
+	o.mu.Lock()
+	defer o.mu.Unlock()
+
 	mset := o.mset
 	// On stop, mset and timer will be nil.
 	if o.closed || mset == nil || o.ptmr == nil {
-		stopAndClearTimer(&o.ptmr)
-		o.mu.RUnlock()
+		o.stopAndClearPtmr()
 		return
 	}
-	o.mu.RUnlock()
 
 	var shouldUpdateState bool
 	var state StreamState
 	mset.store.FastState(&state)
 	fseq := state.FirstSeq
-
-	o.mu.Lock()
-	defer o.mu.Unlock()
 
 	now := time.Now().UnixNano()
 	ttl := int64(o.cfg.AckWait)
@@ -4623,11 +4639,7 @@ func (o *consumer) checkPending() {
 	check := len(o.pending) > 1024
 	for seq, p := range o.pending {
 		if check && atomic.LoadInt64(&o.awl) > 0 {
-			if o.ptmr == nil {
-				o.ptmr = time.AfterFunc(100*time.Millisecond, o.checkPending)
-			} else {
-				o.ptmr.Reset(100 * time.Millisecond)
-			}
+			o.resetPtmr(100 * time.Millisecond)
 			return
 		}
 		// Check if these are no longer valid.
@@ -4694,15 +4706,10 @@ func (o *consumer) checkPending() {
 	}
 
 	if len(o.pending) > 0 {
-		delay := time.Duration(next)
-		if o.ptmr == nil {
-			o.ptmr = time.AfterFunc(delay, o.checkPending)
-		} else {
-			o.ptmr.Reset(o.ackWait(delay))
-		}
+		o.resetPtmr(time.Duration(next))
 	} else {
 		// Make sure to stop timer and clear out any re delivery queues
-		stopAndClearTimer(&o.ptmr)
+		o.stopAndClearPtmr()
 		o.rdq = nil
 		o.rdqi.Empty()
 		o.pending = nil
@@ -4890,7 +4897,7 @@ func (o *consumer) selectStartingSeqNo() {
 					for _, filter := range o.subjf {
 						// Use first sequence since this is more optimized atm.
 						ss := o.mset.store.FilteredState(state.FirstSeq, filter.subject)
-						if ss.First > o.sseq && ss.First < nseq {
+						if ss.First >= o.sseq && ss.First < nseq {
 							nseq = ss.First
 						}
 					}
@@ -5188,7 +5195,7 @@ func (o *consumer) stopWithFlags(dflag, sdflag, doSignal, advisory bool) error {
 	o.client = nil
 	sysc := o.sysc
 	o.sysc = nil
-	stopAndClearTimer(&o.ptmr)
+	o.stopAndClearPtmr()
 	stopAndClearTimer(&o.dtmr)
 	stopAndClearTimer(&o.gwdtmr)
 	delivery := o.cfg.DeliverSubject
@@ -5242,12 +5249,6 @@ func (o *consumer) stopWithFlags(dflag, sdflag, doSignal, advisory bool) error {
 		if dflag {
 			n.Delete()
 		} else {
-			// Try to install snapshot on clean exit
-			if o.store != nil && (o.retention != LimitsPolicy || n.NeedSnapshot()) {
-				if snap, err := o.store.EncodedState(); err == nil {
-					n.InstallSnapshot(snap)
-				}
-			}
 			n.Stop()
 		}
 	}
@@ -5329,12 +5330,14 @@ func (o *consumer) cleanupNoInterestMessages(mset *stream, ignoreInterest bool) 
 		return
 	}
 
+	mset.mu.RUnlock()
+	mset.mu.Lock()
 	for seq := start; seq <= stop; seq++ {
 		if mset.noInterest(seq, co) {
 			rmseqs = append(rmseqs, seq)
 		}
 	}
-	mset.mu.RUnlock()
+	mset.mu.Unlock()
 
 	// These can be removed.
 	for _, seq := range rmseqs {
@@ -5590,8 +5593,9 @@ func (o *consumer) checkStateForInterestStream(ss *StreamState) error {
 
 	o.mu.Lock()
 	// Update our check floor.
-	if seq > o.chkflr {
-		o.chkflr = seq
+	// Check floor must never be greater than ack floor+1, otherwise subsequent calls to this function would skip work.
+	if asflr+1 > o.chkflr {
+		o.chkflr = asflr + 1
 	}
 	// See if we need to process this update if our parent stream is not a limits policy stream.
 	state, _ = o.store.State()
@@ -5609,4 +5613,18 @@ func (o *consumer) checkStateForInterestStream(ss *StreamState) error {
 		}
 	}
 	return nil
+}
+
+func (o *consumer) resetPtmr(delay time.Duration) {
+	if o.ptmr == nil {
+		o.ptmr = time.AfterFunc(delay, o.checkPending)
+	} else {
+		o.ptmr.Reset(delay)
+	}
+	o.ptmrEnd = time.Now().Add(delay)
+}
+
+func (o *consumer) stopAndClearPtmr() {
+	stopAndClearTimer(&o.ptmr)
+	o.ptmrEnd = time.Time{}
 }
