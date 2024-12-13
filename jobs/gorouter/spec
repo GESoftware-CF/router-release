@@ -313,9 +313,6 @@ properties:
   router.logging.syslog_tag:
     description: "Tag to use when writing syslog messages"
     default: "vcap.gorouter"
-  router.logging.syslog_message_limit:
-    description: "Limit the number of bytes per access log written to syslog. A value of zero disables the limit."
-    default: 0
   router.logging.syslog_addr:
     description: "Address of a syslog server to send access logs"
     default: "localhost:514"

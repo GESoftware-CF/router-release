@@ -1386,19 +1386,6 @@ describe 'gorouter' do
               expect(parsed_yaml['logging']['syslog_network']).to eq('tcp')
             end
           end
-          context 'when syslog message length is set' do
-            before do
-              deployment_manifest_fragment['router']['logging'] = { 'syslog_message_limit' => 4096 }
-            end
-            it 'it properly sets the value' do
-              expect(parsed_yaml['logging']['syslog_truncate']).to eq(4096)
-            end
-          end
-          context 'when syslog message length is not set' do
-            it 'it properly sets default values' do
-              expect(parsed_yaml['logging']['syslog_truncate']).to eq(0)
-            end
-          end
         end
       end
 
