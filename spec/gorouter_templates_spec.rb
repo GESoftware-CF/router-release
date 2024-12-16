@@ -1348,6 +1348,38 @@ describe 'gorouter' do
           end
         end
 
+        context 'when extra_access_log_fields is set' do
+          context 'to ["local_address"]' do
+            before do
+              deployment_manifest_fragment['router']['logging'] = { 'extra_access_log_fields' => ['local_address'] }
+            end
+
+            it 'properly sets the config property' do
+              expect(parsed_yaml['logging']['extra_access_log_fields']).to include('local_address')
+            end
+          end
+
+          context 'to ["foobar"]' do
+            before do
+              deployment_manifest_fragment['router']['logging'] = { 'extra_access_log_fields' => ['foobar'] }
+            end
+
+            it 'raises an error' do
+              expect { parsed_yaml }.to raise_error(RuntimeError, 'router.logging.extra_access_log_fields (["foobar"]) contains invalid values, valid are ["local_address"]')
+            end
+          end
+
+          context 'to ["local_address", "foobar"]' do
+            before do
+              deployment_manifest_fragment['router']['logging'] = { 'extra_access_log_fields' => ['local_address', 'foobar'] }
+            end
+
+            it 'still raises an error' do
+              expect { parsed_yaml }.to raise_error(RuntimeError, 'router.logging.extra_access_log_fields (["local_address", "foobar"]) contains invalid values, valid are ["local_address"]')
+            end
+          end
+        end
+
         context 'when access log streaming via syslog is enabled' do
           before do
             deployment_manifest_fragment['router']['write_access_logs_locally'] = false
