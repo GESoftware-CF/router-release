@@ -322,6 +322,14 @@ properties:
   router.logging.syslog_network:
     description: "Network protocol to use when connecting to the syslog server. Valid values are 'tcp', 'udp', <empty>. When choosing an empty string value, the local syslog daemon is used."
     default: "udp"
+  router.logging.extra_access_log_fields:
+    description: |
+      An array of additional access log fields to log. Any new log fields will only be exposed via
+      this property and operators have to explicitly enable them. This is done to prevent breaking
+      log parsing in existing setups by the introduction of new fields. Does not affect stdout /
+      stderr logs.
+      Available fields are: local_address
+    default: []
   router.logging.format.timestamp:
     description: |
       Format for timestamp in component logs. Valid values are 'rfc3339', 'deprecated', and 'unix-epoch'."
