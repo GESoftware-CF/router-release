@@ -5,8 +5,8 @@ go 1.22
 toolchain go1.22.3
 
 require (
-	code.cloudfoundry.org/tlsconfig v0.12.0
-	github.com/nats-io/nats.go v1.37.0
+	code.cloudfoundry.org/tlsconfig v0.13.0
+	github.com/nats-io/nats.go v1.38.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
