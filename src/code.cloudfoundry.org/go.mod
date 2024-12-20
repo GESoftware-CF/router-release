@@ -31,7 +31,7 @@ require (
 	github.com/nats-io/nats-server/v2 v2.10.24
 	github.com/nats-io/nats.go v1.38.0
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
-	github.com/onsi/ginkgo/v2 v2.22.0
+	github.com/onsi/ginkgo/v2 v2.22.1
 	github.com/onsi/gomega v1.36.1
 	github.com/openzipkin/zipkin-go v0.4.3
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475
@@ -40,7 +40,7 @@ require (
 	github.com/urfave/cli v1.22.16
 	github.com/urfave/negroni/v3 v3.1.1
 	github.com/vito/go-sse v1.1.2
-	go.step.sm/crypto v0.55.0
+	go.step.sm/crypto v0.56.0
 	go.uber.org/zap v1.27.0
 	go.uber.org/zap/exp v0.3.0
 	golang.org/x/crypto v0.31.0
