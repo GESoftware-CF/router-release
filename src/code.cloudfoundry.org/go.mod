@@ -6,13 +6,13 @@ replace github.com/cactus/go-statsd-client => github.com/cactus/go-statsd-client
 
 require (
 	code.cloudfoundry.org/bbs v0.0.0-20241210011614-ee93cf60abbe
-	code.cloudfoundry.org/cfhttp/v2 v2.27.0
-	code.cloudfoundry.org/clock v1.26.0
-	code.cloudfoundry.org/debugserver v0.30.0
-	code.cloudfoundry.org/eventhub v0.23.0
+	code.cloudfoundry.org/cfhttp/v2 v2.28.0
+	code.cloudfoundry.org/clock v1.27.0
+	code.cloudfoundry.org/debugserver v0.31.0
+	code.cloudfoundry.org/eventhub v0.24.0
 	code.cloudfoundry.org/go-metric-registry v0.0.0-20241216212740-f99815f94a2a
-	code.cloudfoundry.org/lager/v3 v3.20.0
-	code.cloudfoundry.org/localip v0.24.0
+	code.cloudfoundry.org/lager/v3 v3.21.0
+	code.cloudfoundry.org/localip v0.25.0
 	code.cloudfoundry.org/locket v0.0.0-20241210012608-63e03b2bfad8
 	code.cloudfoundry.org/tlsconfig v0.14.0
 	github.com/armon/go-proxyproto v0.1.0
@@ -31,7 +31,7 @@ require (
 	github.com/nats-io/nats-server/v2 v2.10.24
 	github.com/nats-io/nats.go v1.38.0
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
-	github.com/onsi/ginkgo/v2 v2.22.1
+	github.com/onsi/ginkgo/v2 v2.22.2
 	github.com/onsi/gomega v1.36.2
 	github.com/openzipkin/zipkin-go v0.4.3
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475
@@ -45,7 +45,7 @@ require (
 	go.uber.org/zap/exp v0.3.0
 	golang.org/x/crypto v0.31.0
 	golang.org/x/net v0.33.0
-	golang.org/x/oauth2 v0.24.0
+	golang.org/x/oauth2 v0.25.0
 	golang.org/x/tools v0.28.0
 	google.golang.org/grpc v1.69.2
 	google.golang.org/protobuf v1.36.1
@@ -53,8 +53,8 @@ require (
 )
 
 require (
-	code.cloudfoundry.org/diego-logging-client v0.35.0 // indirect
-	code.cloudfoundry.org/durationjson v0.24.0 // indirect
+	code.cloudfoundry.org/diego-logging-client v0.36.0 // indirect
+	code.cloudfoundry.org/durationjson v0.25.0 // indirect
 	code.cloudfoundry.org/go-diodes v0.0.0-20241223074059-7f8c1f03edeb // indirect
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1 // indirect
 	code.cloudfoundry.org/inigo v0.0.0-20210615140442-4bdc4f6e44d5 // indirect
@@ -97,9 +97,9 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/mod v0.22.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
-	golang.org/x/time v0.8.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20241223144023-3abc09e42ca8 // indirect
+	golang.org/x/time v0.9.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250102185135-69823020774d // indirect
 	gopkg.in/alexcesaro/statsd.v2 v2.0.0 // indirect
 )
