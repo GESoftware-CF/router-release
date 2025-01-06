@@ -1,0 +1,131 @@
+name: routing
+version: 0.328.0
+commit_hash: 15cac9c6
+uncommitted_changes: false
+jobs:
+- name: acceptance_tests
+  version: e8d5cafbcdd617ea3fc7397260068012789ae63b7ea94fa7870451d9f497dea7
+  fingerprint: e8d5cafbcdd617ea3fc7397260068012789ae63b7ea94fa7870451d9f497dea7
+  sha1: sha256:90c0e7ac761054d5439f43bd18c9918507db6a1d4ea882b40c57f55d00ca52db
+  packages:
+  - golang-1.23-linux
+  - acceptance_tests
+  - rtr
+  - cf-cli-8-linux
+- name: bbr-routingdb
+  version: 794530916f5308c8baf8cfb5630ec37ac850264ca3d544e31d21fbca4397e3fa
+  fingerprint: 794530916f5308c8baf8cfb5630ec37ac850264ca3d544e31d21fbca4397e3fa
+  sha1: sha256:297b8844514f542aed6cc05de06201206eacb19c02891c2e387c2b98111bec05
+  packages: []
+- name: gorouter
+  version: 517462359d8cc5d747d067e541029fb1c8c0349f588602c88b9a6d912a31248b
+  fingerprint: 517462359d8cc5d747d067e541029fb1c8c0349f588602c88b9a6d912a31248b
+  sha1: sha256:2428c994662e66a43f7faac06132675f50973d94e5831e6effa467bf378702b4
+  packages:
+  - routing_utils
+  - gorouter
+  - routing-healthchecker
+- name: route_registrar
+  version: 41834683cad6d7aab1f1b8ae977787fcf420d7916d096ae84debd37e1924206f
+  fingerprint: 41834683cad6d7aab1f1b8ae977787fcf420d7916d096ae84debd37e1924206f
+  sha1: sha256:7ff0ee30a8da7c35f507e6147d87eac298b8ebf96c0d785fd3a663f987b7fad5
+  packages:
+  - routing_utils
+  - route_registrar
+- name: routing-api
+  version: cea0d1eba6a37dea73a6a4e3613f65baad2e728bf0b7f820bf40480fd506b074
+  fingerprint: cea0d1eba6a37dea73a6a4e3613f65baad2e728bf0b7f820bf40480fd506b074
+  sha1: sha256:77703b87eeabe2d1b92300e84dbdd12ef4298fc86d993361a1cfd96e68ce2fda
+  packages:
+  - routing-api
+  - routing_utils
+- name: smoke_tests
+  version: 34d67db5f5c8e962c927aac91f88546ba0f1a0a20a9af58d5e5f4aa61eeb6aeb
+  fingerprint: 34d67db5f5c8e962c927aac91f88546ba0f1a0a20a9af58d5e5f4aa61eeb6aeb
+  sha1: sha256:1dc66aa3b5ea37f548e08b89cde8d9ea597c65157c642ee050ee693d45625d7e
+  packages:
+  - golang-1.23-linux
+  - acceptance_tests
+  - cf-cli-8-linux
+- name: tcp_router
+  version: b7c1c2ac504bfdc00525b871b5fa07e980205150cc38418d8673f756d0e776e3
+  fingerprint: b7c1c2ac504bfdc00525b871b5fa07e980205150cc38418d8673f756d0e776e3
+  sha1: sha256:14745b8fb4f6ccea25ad69960bc047b61a2ec054b0eb22abf05f19fd2ad5d0c4
+  packages:
+  - routing_utils
+  - tcp_router
+  - haproxy
+packages:
+- name: acceptance_tests
+  version: 149591eced3b27767d4da288bcaa06dccc3e4e8766eb34796822efba391c2181
+  fingerprint: 149591eced3b27767d4da288bcaa06dccc3e4e8766eb34796822efba391c2181
+  sha1: sha256:db7eeac56c57161ea8b1c26ffc84e894c5bec603ae3efd0e925fc1102afb7fd9
+  dependencies:
+  - rtr
+  - golang-1.23-linux
+- name: cf-cli-8-linux
+  version: 3b33a2edb6bf6338d752e327bc3557e471c8a252c17231f5a5403bb357233653
+  fingerprint: 3b33a2edb6bf6338d752e327bc3557e471c8a252c17231f5a5403bb357233653
+  sha1: sha256:c071e87aafe810522071827026c86d78faadfc1a9dcccc611dab0caddc7bed1b
+  dependencies: []
+- name: golang-1.23-linux
+  version: 14f95d7b762c61087eae7534ad5f78c978102ef1537cdf3e0e9c71efd401182b
+  fingerprint: 14f95d7b762c61087eae7534ad5f78c978102ef1537cdf3e0e9c71efd401182b
+  sha1: sha256:a24290f242acc2d4eb4c47208a90fee3c7cec12951fcb819e536aae1ecafdcb2
+  dependencies: []
+- name: gorouter
+  version: da235377159793ddba094d40ccef91ee36785fab1ac4ae7b9f40672753d45cb8
+  fingerprint: da235377159793ddba094d40ccef91ee36785fab1ac4ae7b9f40672753d45cb8
+  sha1: sha256:dd5a3f046642deee6f18042bbc3bba5c4b7671d6c72c7efba5bf8735cbf2fff3
+  dependencies:
+  - golang-1.23-linux
+- name: haproxy
+  version: 865d9ff9d3483ff0e1a8714787c9c0323e49bd577eb927129c919590a66ac9bb
+  fingerprint: 865d9ff9d3483ff0e1a8714787c9c0323e49bd577eb927129c919590a66ac9bb
+  sha1: sha256:b8fc849996216b388511b7caafdc57d1ea134ccd2ad8f9f2ea3ae4bef6f180f8
+  dependencies: []
+- name: route_registrar
+  version: 6c3bfec720615deda059d83989d52681ce3919a4f63d6cbc90441875b4ca7547
+  fingerprint: 6c3bfec720615deda059d83989d52681ce3919a4f63d6cbc90441875b4ca7547
+  sha1: sha256:862a005c0135838cab9e47dfb17a965653f89f955c8bf7dabc740ceb75c8c9e2
+  dependencies:
+  - golang-1.23-linux
+- name: routing-api
+  version: 575a066f2c0428db2862abcbfd37d74cdabc9ff015d3d76e8bd81da4a302dc9c
+  fingerprint: 575a066f2c0428db2862abcbfd37d74cdabc9ff015d3d76e8bd81da4a302dc9c
+  sha1: sha256:e047690299b46c5791078e9b51bc43b53e857e99abdd9fb4787f3d7f8029b780
+  dependencies:
+  - golang-1.23-linux
+- name: routing-golang-1.23-linux
+  version: 14f95d7b762c61087eae7534ad5f78c978102ef1537cdf3e0e9c71efd401182b
+  fingerprint: 14f95d7b762c61087eae7534ad5f78c978102ef1537cdf3e0e9c71efd401182b
+  sha1: sha256:a24290f242acc2d4eb4c47208a90fee3c7cec12951fcb819e536aae1ecafdcb2
+  dependencies: []
+- name: routing-healthchecker
+  version: 6abf71d29bf14d824e7bbe2b6ca86d04d6ba57d2351fe87602cbf9a0015eaa76
+  fingerprint: 6abf71d29bf14d824e7bbe2b6ca86d04d6ba57d2351fe87602cbf9a0015eaa76
+  sha1: sha256:bf584a210f467f1fa0669bd9408b6a671850ffb61efa9c43fe82d8ead8a39009
+  dependencies:
+  - routing-golang-1.23-linux
+- name: routing_utils
+  version: 7f812a150fe2ad9d6c21bb38446cf17daaa414dd6fb9aed32d87f940a7da326a
+  fingerprint: 7f812a150fe2ad9d6c21bb38446cf17daaa414dd6fb9aed32d87f940a7da326a
+  sha1: sha256:4442ab40e361fafa08f6d753d4a166117d591d9cd85a9b52f76ff913f26ca3e0
+  dependencies:
+  - golang-1.23-linux
+- name: rtr
+  version: 5d1ec641a809d09c526636f2c8b56d3b123dac03937276bba0cdc4b6cb283402
+  fingerprint: 5d1ec641a809d09c526636f2c8b56d3b123dac03937276bba0cdc4b6cb283402
+  sha1: sha256:837f0b99e97cfbe6a683124b8a707cfb382210055e9dfee41e52305ac066997f
+  dependencies:
+  - golang-1.23-linux
+- name: tcp_router
+  version: 6d8431d441f19a7997853adfe7ac093ea891cfb7171973ee7e4e29f233822d4a
+  fingerprint: 6d8431d441f19a7997853adfe7ac093ea891cfb7171973ee7e4e29f233822d4a
+  sha1: sha256:215f5134f148628babf3a6c66611acad6ac6414c19d3e199241b8f6fd2dd7a7a
+  dependencies:
+  - golang-1.23-linux
+license:
+  version: 10661a06190559379af3f2c99f89d8bacb4ecf6e017ca6b8b6d412110bdba37b
+  fingerprint: 10661a06190559379af3f2c99f89d8bacb4ecf6e017ca6b8b6d412110bdba37b
+  sha1: sha256:b8f7807cd60f9b408b9885e502be6f20d7ec626aec181bc818cc7b432d5e4a63
