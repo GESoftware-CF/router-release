@@ -1,5 +1,13 @@
 # libhoney Changelog
 
+## 1.25.0 2025-01-09
+
+Honeycomb's backend can now accept events with sizes up to 1 million bytes. This release bumps libhoney to
+conform to the same limit. It also updates some libraries and sets the minimum version of Go to 1.21.
+
+- maint: Increase max event size, clean up some nits (#261) | @kentquirk
+- maint(deps): bump github.com/stretchr/testify from 1.9.0 to 1.10.0 (#260) | @dependabot
+
 ## 1.24.0 2024-11-22
 
 ### Enhancements

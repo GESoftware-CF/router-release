@@ -9,7 +9,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"math/rand"
 	"net/http"
 	"net/url"
@@ -381,7 +381,7 @@ func getAuth(config Config) (authInfo, error) {
 	if resp.StatusCode == http.StatusUnauthorized {
 		return auth, errors.New("Write key provided is invalid")
 	}
-	body, _ := ioutil.ReadAll(resp.Body)
+	body, _ := io.ReadAll(resp.Body)
 	if resp.StatusCode != http.StatusOK {
 		return auth, fmt.Errorf(`Abnormal non-200 response verifying Honeycomb write/API key: %d
 Response body: %s`, resp.StatusCode, string(body))
