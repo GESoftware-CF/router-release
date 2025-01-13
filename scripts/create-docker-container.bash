@@ -34,12 +34,20 @@ else
   ARGS="${*}"
 fi
 
+# disable asyncpreempt on MacOS ARM64 (Apple Silicon) as it may cause sporadic errors in emulation
+# see: https://github.com/golang/go/issues/42774
+DISABLE_ASYNC_PREEMPT=
+if [ "$(uname -sm)" == "Darwin arm64" ]; then
+    DISABLE_ASYNC_PREEMPT='--env GODEBUG=asyncpreemptoff=1'
+fi
+
 docker pull "${IMAGE}"
 docker rm -f $CONTAINER_NAME
 docker run -it \
   --env "DB=${DB}" \
   --env "REPO_NAME=$REPO_NAME" \
   --env "REPO_PATH=/repo" \
+  $DISABLE_ASYNC_PREEMPT \
   --rm \
   --name "$CONTAINER_NAME" \
   -v "${REPO_PATH}:/repo" \
@@ -47,4 +55,3 @@ docker run -it \
   ${ARGS} \
   "${IMAGE}" \
   /bin/bash
-  
