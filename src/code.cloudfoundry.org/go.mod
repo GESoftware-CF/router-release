@@ -6,9 +6,9 @@ replace github.com/cactus/go-statsd-client => github.com/cactus/go-statsd-client
 
 require (
 	code.cloudfoundry.org/bbs v0.0.0-20241210011614-ee93cf60abbe
-	code.cloudfoundry.org/cfhttp/v2 v2.29.0
+	code.cloudfoundry.org/cfhttp/v2 v2.30.0
 	code.cloudfoundry.org/clock v1.28.0
-	code.cloudfoundry.org/debugserver v0.32.0
+	code.cloudfoundry.org/debugserver v0.33.0
 	code.cloudfoundry.org/eventhub v0.25.0
 	code.cloudfoundry.org/go-metric-registry v0.0.0-20250107131239-51ba784c3fe1
 	code.cloudfoundry.org/lager/v3 v3.22.0
@@ -22,7 +22,7 @@ require (
 	github.com/cloudfoundry/cf-test-helpers/v2 v2.10.0
 	github.com/cloudfoundry/custom-cats-reporters v0.0.2
 	github.com/cloudfoundry/dropsonde v1.1.0
-	github.com/cloudfoundry/sonde-go v0.0.0-20250107093625-3b887caf8df2
+	github.com/cloudfoundry/sonde-go v0.0.0-20250113140334-595e96981704
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/golang-jwt/jwt/v4 v4.5.1
 	github.com/jinzhu/gorm v1.9.16
@@ -47,13 +47,13 @@ require (
 	golang.org/x/net v0.34.0
 	golang.org/x/oauth2 v0.25.0
 	golang.org/x/tools v0.29.0
-	google.golang.org/grpc v1.69.2
+	google.golang.org/grpc v1.69.4
 	google.golang.org/protobuf v1.36.2
 	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
-	code.cloudfoundry.org/diego-logging-client v0.37.0 // indirect
+	code.cloudfoundry.org/diego-logging-client v0.38.0 // indirect
 	code.cloudfoundry.org/durationjson v0.26.0 // indirect
 	code.cloudfoundry.org/go-diodes v0.0.0-20250107092748-442ea8f9957b // indirect
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1 // indirect
