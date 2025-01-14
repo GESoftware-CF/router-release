@@ -144,7 +144,7 @@ properties:
         writable (optional, boolean): sets the writable flag. defaults to false
 
       options object
-        loadbalancing (optional, string): Load balancing algorithm for routing incoming requests to the backend: 'round-robin' or 'least-connection'. In cases where this option is not specified, the algorithm defined in gorouter spec is applied.
+        lb_algo (optional, string): Load balancing algorithm for routing incoming requests to the backend: 'round-robin' or 'least-connection'. In cases where this option is not specified, the algorithm defined in gorouter spec is applied.
 
     example: |
       - name: my-service
@@ -162,7 +162,7 @@ properties:
           timeout: 5s
         route_service_url: https://my-oauth-proxy-route-service.example.com
         options:
-          loadbalancing: least-connection
+          lb_algo: least-connection
       - name: my-tls-endpoint
         tls_port: 12346
         server_cert_domain_san: "my-tls-endpoint.internal.com"

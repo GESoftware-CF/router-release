@@ -82,8 +82,8 @@ TEXT
     end
 
     if route['options'] != nil
-      if (route['options']['loadbalancing'] != nil && route['options']['loadbalancing'] != 'least-connection' && route['options']['loadbalancing'] != 'round-robin')
-        raise "expected route_registrar.routes[#{index}].route.options.loadbalancing to be least-connection or round-robin when provided"
+      if (route['options']['lb_algo'] != nil && route['options']['lb_algo'] != 'least-connection' && route['options']['lb_algo'] != 'round-robin')
+        raise "expected route_registrar.routes[#{index}].route.options.lb_algo to be least-connection or round-robin when provided"
       end
     end
 

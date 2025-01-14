@@ -722,24 +722,24 @@ describe 'route_registrar' do
         merged_manifest_properties['route_registrar']['routes'][0]['options'] = {}
       end
 
-      it 'uses configured round-robin loadbalancing' do
-        merged_manifest_properties['route_registrar']['routes'][0]['options']['loadbalancing'] = 'round-robin'
+      it 'uses configured round-robin lb_algo' do
+        merged_manifest_properties['route_registrar']['routes'][0]['options']['lb_algo'] = 'round-robin'
         rendered_hash = JSON.parse(template.render(merged_manifest_properties, consumes: links))
-        expect(rendered_hash['routes'][0]['options']['loadbalancing']).to eq('round-robin')
+        expect(rendered_hash['routes'][0]['options']['lb_algo']).to eq('round-robin')
       end
-      it 'uses configured least-connection loadbalancing' do
-        merged_manifest_properties['route_registrar']['routes'][0]['options']['loadbalancing'] = 'least-connection'
+      it 'uses configured least-connection lb_algo' do
+        merged_manifest_properties['route_registrar']['routes'][0]['options']['lb_algo'] = 'least-connection'
         rendered_hash = JSON.parse(template.render(merged_manifest_properties, consumes: links))
-        expect(rendered_hash['routes'][0]['options']['loadbalancing']).to eq('least-connection')
+        expect(rendered_hash['routes'][0]['options']['lb_algo']).to eq('least-connection')
       end
-      it 'without loadbalancing' do
+      it 'without lb_algo' do
         rendered_hash = JSON.parse(template.render(merged_manifest_properties, consumes: links))
-        expect(rendered_hash['routes'][0]['options']['loadbalancing']).to be nil
+        expect(rendered_hash['routes'][0]['options']['lb_algo']).to be nil
       end
-      it 'raises error for unknown loadbalancing' do
-        merged_manifest_properties['route_registrar']['routes'][0]['options']['loadbalancing'] = 'unknown'
+      it 'raises error for unknown lb_algo' do
+        merged_manifest_properties['route_registrar']['routes'][0]['options']['lb_algo'] = 'unknown'
         expect { template.render(merged_manifest_properties, consumes: links) }.to raise_error(
-          RuntimeError, 'expected route_registrar.routes[0].route.options.loadbalancing to be least-connection or round-robin when provided'
+          RuntimeError, 'expected route_registrar.routes[0].route.options.lb_algo to be least-connection or round-robin when provided'
         )
       end
     end
