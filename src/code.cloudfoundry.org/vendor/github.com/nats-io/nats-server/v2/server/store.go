@@ -18,6 +18,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"strings"
 	"time"
 	"unsafe"
@@ -166,6 +167,8 @@ type SimpleState struct {
 
 	// Internal usage for when the first needs to be updated before use.
 	firstNeedsUpdate bool
+	// Internal usage for when the last needs to be updated before use.
+	lastNeedsUpdate bool
 }
 
 // LostStreamData indicates msgs that have been lost.
@@ -777,4 +780,8 @@ func copyString(s string) string {
 	b := make([]byte, len(s))
 	copy(b, s)
 	return bytesToString(b)
+}
+
+func isPermissionError(err error) bool {
+	return err != nil && os.IsPermission(err)
 }
