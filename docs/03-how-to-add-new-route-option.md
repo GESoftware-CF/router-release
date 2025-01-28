@@ -40,7 +40,8 @@ Implementing per-route features in Cloud Foundry is a laborious process because 
 ### Use Cases
 #### New Feature for Application Routes 
 To introduce a new application per-route option, follow the instructions:
-* Extend **Cloud Controller** to accept and process a new per-route options in the manifest and the API. The [Pull-Request](https://github.com/cloudfoundry/cloud_controller_ng/pull/4080/files) which introduced per-route options with the `loadbalancing` option can serve as a starting point to determine required changes. Update the documentation in the `docs` folder accordingly.
+* No changes are needed in the **CF CLI**, as it already accepts an arbitrary list of key-value pairs for per-route options and forwards them to the Cloud Controller.
+* Extend **Cloud Controller** to accept and process a new per-route options in the manifest and the API. The [Pull-Request #4080](https://github.com/cloudfoundry/cloud_controller_ng/pull/4080/files) which introduced per-route options with the `loadbalancing` option can serve as a starting point to determine required changes. Update the documentation in the `docs` folder accordingly.
 * There is no need to adapt the coding in **BBS**. The `route` object is stored as a generic JSON object in BBS. Therefore, BBS simply accepts the `options` it receives from Cloud Controller and saves them as a string in its database. For more details, refer to the discussion on [BBS issue #939](https://github.com/cloudfoundry/diego-release/issues/939).
 * There is no need to change anything in **route-emitter** and **routing-info** components. The initial implementation of per-route features extended the `CFRoute` with `options` as a raw JSON message. The only additional step you might consider is implementing tests for these components to ensure that the new option is included in the raw JSON.
 * There is no need to implement anything in **NATS**, as NATS only forwards the route registration messages.
