@@ -461,6 +461,8 @@ func (s *Server) enableJetStream(cfg JetStreamConfig) error {
 		if err := s.enableJetStreamClustering(); err != nil {
 			return err
 		}
+		// Set our atomic bool to clustered.
+		s.jsClustered.Store(true)
 	}
 
 	// Mark when we are up and running.
@@ -965,6 +967,8 @@ func (s *Server) shutdownJetStream() {
 			cc.c = nil
 		}
 		cc.meta = nil
+		// Set our atomic bool to false.
+		s.jsClustered.Store(false)
 	}
 	js.mu.Unlock()
 
@@ -2103,7 +2107,7 @@ func (js *jetStream) wouldExceedLimits(storeType StorageType, sz int) bool {
 	} else {
 		total, max = &js.storeUsed, js.config.MaxStore
 	}
-	return atomic.LoadInt64(total) > (max + int64(sz))
+	return (atomic.LoadInt64(total) + int64(sz)) > max
 }
 
 func (js *jetStream) limitsExceeded(storeType StorageType) bool {
@@ -2968,5 +2972,16 @@ func fixCfgMirrorWithDedupWindow(cfg *StreamConfig) {
 	}
 	if cfg.Duplicates != 0 {
 		cfg.Duplicates = 0
+	}
+}
+
+func (s *Server) handleWritePermissionError() {
+	//TODO Check if we should add s.jetStreamOOSPending in condition
+	if s.JetStreamEnabled() {
+		s.Errorf("File system permission denied while writing, disabling JetStream")
+
+		go s.DisableJetStream()
+
+		//TODO Send respective advisory if needed, same as in handleOutOfSpace
 	}
 }

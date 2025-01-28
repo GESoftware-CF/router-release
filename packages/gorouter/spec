@@ -21,6 +21,7 @@ files:
   - code.cloudfoundry.org/gorouter/accesslog/fakes/*.go # gosub
   - code.cloudfoundry.org/gorouter/accesslog/schema/*.go # gosub
   - code.cloudfoundry.org/gorouter/accesslog/schema/fakes/*.go # gosub
+  - code.cloudfoundry.org/gorouter/accesslog/syslog/*.go # gosub
   - code.cloudfoundry.org/gorouter/common/*.go # gosub
   - code.cloudfoundry.org/gorouter/common/health/*.go # gosub
   - code.cloudfoundry.org/gorouter/common/http/*.go # gosub
@@ -226,7 +227,6 @@ files:
   - code.cloudfoundry.org/vendor/golang.org/x/crypto/scrypt/*.go # gosub
   - code.cloudfoundry.org/vendor/golang.org/x/crypto/ssh/*.go # gosub
   - code.cloudfoundry.org/vendor/golang.org/x/crypto/ssh/internal/bcrypt_pbkdf/*.go # gosub
-  - code.cloudfoundry.org/vendor/golang.org/x/net/context/*.go # gosub
   - code.cloudfoundry.org/vendor/golang.org/x/net/html/*.go # gosub
   - code.cloudfoundry.org/vendor/golang.org/x/net/html/atom/*.go # gosub
   - code.cloudfoundry.org/vendor/golang.org/x/net/html/charset/*.go # gosub
@@ -282,6 +282,7 @@ files:
   - code.cloudfoundry.org/vendor/google.golang.org/protobuf/internal/impl/*.go # gosub
   - code.cloudfoundry.org/vendor/google.golang.org/protobuf/internal/order/*.go # gosub
   - code.cloudfoundry.org/vendor/google.golang.org/protobuf/internal/pragma/*.go # gosub
+  - code.cloudfoundry.org/vendor/google.golang.org/protobuf/internal/protolazy/*.go # gosub
   - code.cloudfoundry.org/vendor/google.golang.org/protobuf/internal/set/*.go # gosub
   - code.cloudfoundry.org/vendor/google.golang.org/protobuf/internal/strs/*.go # gosub
   - code.cloudfoundry.org/vendor/google.golang.org/protobuf/internal/version/*.go # gosub

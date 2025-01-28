@@ -16,7 +16,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"runtime"
@@ -34,7 +33,7 @@ const (
 	// Size limit for a serialized request body sent for a batch.
 	apiMaxBatchSize int = 5000000 // 5MB
 	// Size limit for a single serialized event within a batch.
-	apiEventSizeMax    int = 100000 // 100KB
+	apiEventSizeMax    int = 1_000_000 // 1MB, which is the limit for a single event in Shepherd
 	maxOverflowBatches int = 10
 	// Default start-to-finish timeout for batch send HTTP requests.
 	defaultSendTimeout = time.Second * 60
@@ -489,7 +488,7 @@ func (b *batchAgg) fireBatch(events []*Event) {
 				body, err = json.Marshal(&errorBody)
 			}
 		} else {
-			body, err = ioutil.ReadAll(resp.Body)
+			body, err = io.ReadAll(resp.Body)
 		}
 		if err != nil {
 			b.enqueueErrResponses(
