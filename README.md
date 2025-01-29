@@ -17,6 +17,7 @@ for [CF Deployment](https://github.com/cloudfoundry/cf-deployment).
 -   [How To Use Session
     Affinity](./docs/03-how-to-use-session-affinity.md)
 -   [How To Use X-CF Headers](./docs/03-how-to-use-x-cf-headers.md)
+-   [How To Add a New Route Option](./docs/03-how-to-add-new-route-option.md)
 -   [(go1.15) Fixing Bad
     Transfer-Encoding](./docs/04-go1.15-fixing-bad-transfer-encoding.md)
 -   [(go1.15) X.509 CommonName
