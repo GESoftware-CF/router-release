@@ -5,14 +5,14 @@ go 1.23.0
 replace github.com/cactus/go-statsd-client => github.com/cactus/go-statsd-client v2.0.2-0.20150911070441-6fa055a7b594+incompatible
 
 require (
-	code.cloudfoundry.org/bbs v0.0.0-20241210011614-ee93cf60abbe
-	code.cloudfoundry.org/cfhttp/v2 v2.31.0
+	code.cloudfoundry.org/bbs v0.0.0-20250130152952-053f2d6556f8
+	code.cloudfoundry.org/cfhttp/v2 v2.32.0
 	code.cloudfoundry.org/clock v1.28.0
-	code.cloudfoundry.org/debugserver v0.34.0
-	code.cloudfoundry.org/eventhub v0.26.0
+	code.cloudfoundry.org/debugserver v0.35.0
+	code.cloudfoundry.org/eventhub v0.27.0
 	code.cloudfoundry.org/go-metric-registry v0.0.0-20250120152804-381e68ddcf4c
-	code.cloudfoundry.org/lager/v3 v3.23.0
-	code.cloudfoundry.org/localip v0.27.0
+	code.cloudfoundry.org/lager/v3 v3.24.0
+	code.cloudfoundry.org/localip v0.28.0
 	code.cloudfoundry.org/locket v0.0.0-20241210012608-63e03b2bfad8
 	code.cloudfoundry.org/tlsconfig v0.16.0
 	github.com/armon/go-proxyproto v0.1.0
@@ -22,7 +22,7 @@ require (
 	github.com/cloudfoundry/cf-test-helpers/v2 v2.10.0
 	github.com/cloudfoundry/custom-cats-reporters v0.0.2
 	github.com/cloudfoundry/dropsonde v1.1.0
-	github.com/cloudfoundry/sonde-go v0.0.0-20250120125159-edcf91eb21e5
+	github.com/cloudfoundry/sonde-go v0.0.0-20250127102140-78b0e7da13b3
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/golang-jwt/jwt/v4 v4.5.1
 	github.com/jinzhu/gorm v1.9.16
@@ -40,7 +40,7 @@ require (
 	github.com/urfave/cli v1.22.16
 	github.com/urfave/negroni/v3 v3.1.1
 	github.com/vito/go-sse v1.1.2
-	go.step.sm/crypto v0.57.0
+	go.step.sm/crypto v0.57.1
 	go.uber.org/zap v1.27.0
 	go.uber.org/zap/exp v0.3.0
 	golang.org/x/crypto v0.32.0
@@ -53,8 +53,8 @@ require (
 )
 
 require (
-	code.cloudfoundry.org/diego-logging-client v0.39.0 // indirect
-	code.cloudfoundry.org/durationjson v0.27.0 // indirect
+	code.cloudfoundry.org/diego-logging-client v0.40.0 // indirect
+	code.cloudfoundry.org/durationjson v0.28.0 // indirect
 	code.cloudfoundry.org/go-diodes v0.0.0-20250120125122-6d632ec80998 // indirect
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1 // indirect
 	code.cloudfoundry.org/inigo v0.0.0-20210615140442-4bdc4f6e44d5 // indirect
@@ -71,7 +71,7 @@ require (
 	github.com/go-test/deep v1.0.7 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
-	github.com/google/pprof v0.0.0-20250125003558-7fdb3d7e6fa0 // indirect
+	github.com/google/pprof v0.0.0-20250128161936-077ca0a936bf // indirect
 	github.com/honeycombio/libhoney-go v1.25.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
@@ -100,6 +100,6 @@ require (
 	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
 	golang.org/x/time v0.9.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250124145028-65684f501c47 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250127172529-29210b9bc287 // indirect
 	gopkg.in/alexcesaro/statsd.v2 v2.0.0 // indirect
 )
