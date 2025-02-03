@@ -19,7 +19,7 @@ applications:
       loadbalancing: round-robin
   - route: example2.com
     options:
-      loadbalancing: least-connections
+      loadbalancing: least-connection
 ```
 
 **NOTE**: In the implementation, the `options` property of a route represents per-route features.
