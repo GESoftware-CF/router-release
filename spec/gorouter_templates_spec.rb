@@ -1334,8 +1334,8 @@ describe 'gorouter' do
         end
 
         context 'when enable_detailed_attempts_logging is not provided' do
-          it 'it defaults to false' do
-            expect(parsed_yaml['logging']['enable_attempts_details']).to eq(false)
+          it 'it does not set the correspoding extra access log values' do
+            expect(parsed_yaml['logging']['extra_access_log_fields']).not_to include(['backend_time', 'dial_time', 'dns_time', 'failed_attempts', 'failed_attempts_time', 'tls_time'])
           end
         end
 
@@ -1344,7 +1344,7 @@ describe 'gorouter' do
             deployment_manifest_fragment['router']['enable_log_attempts_details'] = true
           end
           it 'it properly sets the value' do
-            expect(parsed_yaml['logging']['enable_attempts_details']).to eq(true)
+            expect(parsed_yaml['logging']['extra_access_log_fields']).to eq(['failed_attempts', 'failed_attempts_time', 'dns_time', 'dial_time', 'tls_time', 'backend_time'])
           end
         end
 
@@ -1365,7 +1365,7 @@ describe 'gorouter' do
             end
 
             it 'raises an error' do
-              expect { parsed_yaml }.to raise_error(RuntimeError, 'router.logging.extra_access_log_fields (["foobar"]) contains invalid values, valid are ["local_address"]')
+              expect { parsed_yaml }.to raise_error(RuntimeError, /router\.logging\.extra_access_log_fields \(\["foobar"\]\) contains invalid values, valid are .*/)
             end
           end
 
@@ -1375,8 +1375,19 @@ describe 'gorouter' do
             end
 
             it 'still raises an error' do
-              expect { parsed_yaml }.to raise_error(RuntimeError, 'router.logging.extra_access_log_fields (["local_address", "foobar"]) contains invalid values, valid are ["local_address"]')
+              expect { parsed_yaml }.to raise_error(RuntimeError, /router\.logging\.extra_access_log_fields \(\["local_address", "foobar"\]\) contains invalid values, valid are .*/)
             end
+          end
+        end
+
+        context 'when enable_detailed_attempts_logging and extra_access_log_fields is set' do
+          before do
+            deployment_manifest_fragment['router']['enable_log_attempts_details'] = true
+            deployment_manifest_fragment['router']['logging'] = { 'extra_access_log_fields' => ['local_address'] }
+          end
+
+          it 'puts the extra_access_log_fields to the end to preserve order' do
+            expect(parsed_yaml['logging']['extra_access_log_fields']).to eq(['failed_attempts', 'failed_attempts_time', 'dns_time', 'dial_time', 'tls_time', 'backend_time', 'local_address'])
           end
         end
 
