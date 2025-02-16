@@ -13,6 +13,7 @@ import "certificate_properties.proto";
 import "image_layer.proto";
 import "log_rate_limit.proto";
 import "metric_tags.proto";
+import "file.proto";
 
 option (gogoproto.goproto_enum_prefix_all) = true;
 
@@ -44,6 +45,7 @@ message TaskDefinition {
   repeated ImageLayer image_layers = 25;
   LogRateLimit log_rate_limit = 26;
   map<string, MetricTagValue> metric_tags = 27;
+  repeated File volume_mounted_files = 28 [(gogoproto.jsontag) = "volume_mounted_files"];
 }
 
 message Task {

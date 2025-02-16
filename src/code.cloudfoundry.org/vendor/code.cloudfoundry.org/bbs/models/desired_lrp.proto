@@ -16,6 +16,7 @@ import "image_layer.proto";
 import "metric_tags.proto";
 import "sidecar.proto";
 import "log_rate_limit.proto";
+import "file.proto";
 
 message DesiredLRPSchedulingInfo {
   DesiredLRPKey desired_lrp_key = 1 [(gogoproto.nullable) = false, (gogoproto.jsontag) = "", (gogoproto.embed) = true];
@@ -70,6 +71,7 @@ message DesiredLRPRunInfo {
 
   repeated Sidecar sidecars = 26;
   LogRateLimit log_rate_limit = 27;
+  repeated File volume_mounted_files = 28 [(gogoproto.jsontag) = "volume_mounted_files"];
 }
 
 // helper message for marshalling routes
@@ -147,4 +149,5 @@ message DesiredLRP {
 
   repeated Sidecar sidecars = 36;
   LogRateLimit log_rate_limit = 37;
+  repeated File volume_mounted_files = 38 [(gogoproto.jsontag) = "volume_mounted_files"];
 }
