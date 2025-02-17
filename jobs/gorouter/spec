@@ -328,7 +328,7 @@ properties:
       this property and operators have to explicitly enable them. This is done to prevent breaking
       log parsing in existing setups by the introduction of new fields. Does not affect stdout /
       stderr logs.
-      Available fields are: local_address
+      Available fields are: backend_time, dial_time, dns_time, failed_attempts, failed_attempts_time, local_address, tls_time
     default: []
   router.logging.format.timestamp:
     description: |

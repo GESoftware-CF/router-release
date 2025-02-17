@@ -391,11 +391,19 @@ if !['rfc3339', 'deprecated', 'unix-epoch'].include?(p('router.logging.format.ti
   raise "'#{p('router.logging.format.timestamp')}' is not a valid timestamp format for the property 'router.logging.format.timestamp'. Valid options are: 'rfc3339', 'deprecated', and 'unix-epoch'."
 end
 
+
+extra_access_log_fields = []
+# Support `enable_log_attempts_details` which was internally migrated to the new dynamic system.
+if p('router.enable_log_attempts_details')
+  extra_access_log_fields.concat(['failed_attempts', 'failed_attempts_time', 'dns_time', 'dial_time', 'tls_time', 'backend_time'])
+end
+
 if_p('router.logging.extra_access_log_fields') do |extra_fields|
-  valid_extra_log_fields=['local_address']
+  valid_extra_log_fields=['backend_time', 'dial_time', 'dns_time', 'failed_attempts', 'failed_attempts_time', 'local_address', 'tls_time']
   if !extra_fields.all? { |el| valid_extra_log_fields.include?(el) }
     raise "router.logging.extra_access_log_fields (#{extra_fields}) contains invalid values, valid are #{valid_extra_log_fields}"
   end
+  extra_access_log_fields.concat(extra_fields)
 end
 
 
@@ -410,13 +418,12 @@ params['logging'] = {
   'syslog_addr' => p('router.logging.syslog_addr'),
   'syslog_network' => p('router.logging.syslog_network'),
   'level' => p('router.logging_level'),
-  'extra_access_log_fields' => p('router.logging.extra_access_log_fields'),
+  'extra_access_log_fields' => extra_access_log_fields,
   'loggregator_enabled' => true,
   'metron_address' => "localhost:#{p('metron.port')}",
   'disable_log_forwarded_for' => p('router.disable_log_forwarded_for'),
   'disable_log_source_ip' => p('router.disable_log_source_ip'),
   'redact_query_params' => p('router.redact_query_parameters'),
-  'enable_attempts_details' => p('router.enable_log_attempts_details'),
   'format' => {
     'timestamp' => timestamp_format,
   },
